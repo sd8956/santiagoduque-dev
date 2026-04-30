@@ -1,0 +1,47 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BlogLayout from '../../../layouts/BlogLayout.astro';
+import { readingTimeMinutes } from '../../../utils/readingTime';
+import { site } from '../../../data/site';
+
+export async function getStaticPaths() {
+  const posts = await getCollection(
+    'blog',
+    (entry) => entry.data.language === 'en' && !entry.data.draft,
+  );
+  return posts.map((post) => {
+    const slug = post.slug.split('/').at(-1) ?? post.slug;
+    return {
+      params: { slug },
+      props: { post },
+    };
+  });
+}
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+const readingMinutes = readingTimeMinutes(post.body);
+
+const slug = post.slug.split('/').at(-1) ?? post.slug;
+const alternates = post.data.translatedTo
+  ? [
+      { lang: 'en', href: `${site.url}/en/blog/${slug}/` },
+      { lang: 'es', href: `${site.url}/es/blog/${post.data.translatedTo}/` },
+    ]
+  : [{ lang: 'en', href: `${site.url}/en/blog/${slug}/` }];
+---
+
+<BlogLayout
+  title={post.data.title}
+  description={post.data.description}
+  pubDate={post.data.pubDate}
+  tags={post.data.tags}
+  readingMinutes={readingMinutes}
+  alternates={alternates}
+>
+  <Content />
+</BlogLayout>
