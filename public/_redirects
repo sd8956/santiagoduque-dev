@@ -1,6 +1,4 @@
-# Root language redirect — Cloudflare Pages edge.
-# Backs up the client-side detection in src/pages/index.astro.
-# Order matters: first match wins. /es/ is the final fallback.
-/  /en/  302  Language=en
-/  /es/  302  Language=es
+# Root fallback for no-JS clients. The smart Accept-Language detection
+# happens client-side in src/pages/index.astro for the 99% case.
+# For proper server-side language negotiation, upgrade to a Pages Function.
 /  /es/  302
