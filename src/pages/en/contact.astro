@@ -1,0 +1,18 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import ContactContent from '../../components/contact/ContactContent.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import { site } from '../../data/site';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const alternates = [
+  { lang: 'es', href: `${site.url}/es/contact/` },
+  { lang: 'en', href: `${site.url}/en/contact/` },
+];
+---
+
+<PageLayout title={t.contact.title} alternates={alternates}>
+  <ContactContent />
+</PageLayout>

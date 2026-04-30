@@ -1,0 +1,37 @@
+---
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import { site } from '../../data/site';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const links = [
+  { label: t.contact.emailLabel, href: `mailto:${site.email}`, value: site.email },
+  { label: t.contact.githubLabel, href: site.social.github, value: site.social.github.replace(/^https?:\/\//, '') },
+  { label: t.contact.linkedinLabel, href: site.social.linkedin, value: site.social.linkedin.replace(/^https?:\/\//, '') },
+];
+---
+
+<h1 class="text-3xl font-bold text-fg">{t.contact.title}</h1>
+
+<p class="mt-4 leading-relaxed text-fg">{t.contact.intro}</p>
+
+<dl class="mt-10 space-y-4">
+  {
+    links.map((link) => (
+      <div class="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-3">
+        <dt class="w-24 text-sm uppercase tracking-wide text-muted">$ {link.label}</dt>
+        <dd>
+          <a
+            href={link.href}
+            target={link.href.startsWith('mailto:') ? undefined : '_blank'}
+            rel={link.href.startsWith('mailto:') ? undefined : 'noopener'}
+            class="text-accent underline underline-offset-4 transition-opacity hover:opacity-80"
+          >
+            {link.value}
+          </a>
+        </dd>
+      </div>
+    ))
+  }
+</dl>

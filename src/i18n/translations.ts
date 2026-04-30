@@ -6,6 +6,7 @@ type UIStrings = {
     blog: string;
     about: string;
     projects: string;
+    contact: string;
   };
   footer: {
     copyright: string;
@@ -37,6 +38,13 @@ type UIStrings = {
     title: string;
     empty: string;
   };
+  contact: {
+    title: string;
+    intro: string;
+    emailLabel: string;
+    githubLabel: string;
+    linkedinLabel: string;
+  };
   common: {
     switchLang: string;
     switchLangAria: string;
@@ -51,6 +59,7 @@ export const translations: Record<Locale, UIStrings> = {
       blog: 'Blog',
       about: 'Sobre mí',
       projects: 'Proyectos',
+      contact: 'Contacto',
     },
     footer: {
       copyright: '© {year} Santiago Duque',
@@ -82,6 +91,13 @@ export const translations: Record<Locale, UIStrings> = {
       title: 'Proyectos',
       empty: 'Todavía no hay proyectos publicados.',
     },
+    contact: {
+      title: 'Contacto',
+      intro: 'Para consultas técnicas, oportunidades de trabajo o cualquier conversación de ingeniería: la vía más rápida es email. También respondo en LinkedIn y GitHub.',
+      emailLabel: 'email',
+      githubLabel: 'github',
+      linkedinLabel: 'linkedin',
+    },
     common: {
       switchLang: 'EN',
       switchLangAria: 'Cambiar a inglés',
@@ -94,6 +110,7 @@ export const translations: Record<Locale, UIStrings> = {
       blog: 'Blog',
       about: 'About',
       projects: 'Projects',
+      contact: 'Contact',
     },
     footer: {
       copyright: '© {year} Santiago Duque',
@@ -124,6 +141,13 @@ export const translations: Record<Locale, UIStrings> = {
     projects: {
       title: 'Projects',
       empty: 'No projects published yet.',
+    },
+    contact: {
+      title: 'Contact',
+      intro: 'For technical inquiries, work opportunities, or any engineering conversation: email is the fastest path. I also reply on LinkedIn and GitHub.',
+      emailLabel: 'email',
+      githubLabel: 'github',
+      linkedinLabel: 'linkedin',
     },
     common: {
       switchLang: 'ES',

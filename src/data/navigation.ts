@@ -13,4 +13,5 @@ export const navigation: NavItem[] = [
   { href: '/blog/', labelKey: 'blog' },
   { href: '/projects/', labelKey: 'projects' },
   { href: '/about/', labelKey: 'about' },
+  { href: '/contact/', labelKey: 'contact' },
 ];
