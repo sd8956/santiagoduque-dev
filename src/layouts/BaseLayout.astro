@@ -53,6 +53,13 @@ const fullTitle = title === site.name ? title : `${title} — ${site.name}`;
     <meta name="twitter:description" content={description} />
 
     <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={`${site.name} (${lang})`}
+      href={`/${lang}/rss.xml`}
+    />
+
+    <link
       rel="preload"
       href="/fonts/JetBrainsMono-Regular.woff2"
       as="font"
