@@ -1,0 +1,17 @@
+---
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const year = new Date().getFullYear();
+const copyright = t.footer.copyright.replace('{year}', String(year));
+---
+
+<footer class="mt-16 border-t border-line">
+  <div
+    class="mx-auto flex max-w-3xl flex-col gap-2 px-4 py-8 text-sm text-muted sm:flex-row sm:justify-between"
+  >
+    <span>{copyright}</span>
+    <span>{t.footer.builtWith}</span>
+  </div>
+</footer>

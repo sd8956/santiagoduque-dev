@@ -1,0 +1,33 @@
+---
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import { getLangFromUrl, localizedPath, useTranslations } from '../../i18n/utils';
+import { navigation } from '../../data/navigation';
+import { site } from '../../data/site';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<header class="border-b border-line">
+  <div class="mx-auto flex max-w-3xl items-center justify-between px-4 py-6">
+    <a
+      href={`/${lang}/`}
+      class="font-bold text-fg transition-colors hover:text-accent"
+    >
+      {site.name}
+    </a>
+    <nav class="flex items-center gap-6 text-sm">
+      {
+        navigation.map((item) => (
+          <a
+            href={localizedPath(lang, item.href)}
+            class="text-muted transition-colors hover:text-accent"
+          >
+            {t.nav[item.labelKey]}
+          </a>
+        ))
+      }
+      <LanguageSwitcher currentLang={lang} currentPath={Astro.url.pathname} />
+    </nav>
+  </div>
+</header>
