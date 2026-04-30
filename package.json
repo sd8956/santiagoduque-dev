@@ -13,15 +13,18 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
-    "preview": "astro preview",
+    "preview": "pnpm run build && wrangler dev",
     "astro": "astro",
     "typecheck": "astro check",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "new-post": "tsx scripts/new-post.ts"
+    "new-post": "tsx scripts/new-post.ts",
+    "deploy": "pnpm run build && wrangler deploy",
+    "cf-typegen": "wrangler types"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "^11.2.0",
     "@astrojs/rss": "^4.0.18",
     "@astrojs/tailwind": "^6.0.2",
     "astro": "^4.16.18",
@@ -36,7 +39,8 @@
     "prettier": "^3.4.1",
     "prettier-plugin-astro": "^0.14.1",
     "tsx": "^4.21.0",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "wrangler": "^4.86.0"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
