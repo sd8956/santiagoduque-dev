@@ -1,0 +1,64 @@
+.prose {
+  @apply text-fg leading-relaxed;
+}
+
+.prose > * + * {
+  @apply mt-4;
+}
+
+.prose h2 {
+  @apply mt-10 text-2xl font-bold text-fg;
+}
+
+.prose h3 {
+  @apply mt-8 text-xl font-bold text-fg;
+}
+
+.prose h4 {
+  @apply mt-6 text-lg font-bold text-fg;
+}
+
+.prose a {
+  @apply text-accent underline underline-offset-4 transition-opacity hover:opacity-80;
+}
+
+.prose ul,
+.prose ol {
+  @apply pl-6;
+}
+
+.prose ul {
+  @apply list-disc;
+}
+
+.prose ol {
+  @apply list-decimal;
+}
+
+.prose li + li {
+  @apply mt-1;
+}
+
+.prose blockquote {
+  @apply border-l-2 border-accent pl-4 italic text-muted;
+}
+
+.prose code {
+  @apply rounded bg-code px-1.5 py-0.5 text-sm;
+}
+
+.prose pre {
+  @apply overflow-x-auto rounded bg-code p-4 text-sm;
+}
+
+.prose pre code {
+  @apply bg-transparent p-0;
+}
+
+.prose hr {
+  @apply my-10 border-line;
+}
+
+.prose strong {
+  @apply font-bold text-fg;
+}
