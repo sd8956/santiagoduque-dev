@@ -3,12 +3,13 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import satori from 'satori';
 import { Resvg } from '@resvg/resvg-js';
 import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
+import { join } from 'node:path';
 
 export const prerender = true;
 
-const FONT_URL = new URL('../../assets/fonts/JetBrainsMono-Bold.ttf', import.meta.url);
-const fontData = readFileSync(fileURLToPath(FONT_URL));
+// Font lives in public/ so it ships with dist/ verbatim. Reading via cwd
+// works in both dev (cwd = project root) and build (cwd = repo root).
+const fontData = readFileSync(join(process.cwd(), 'public/fonts/JetBrainsMono-Bold.ttf'));
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', (entry) => !entry.data.draft);
