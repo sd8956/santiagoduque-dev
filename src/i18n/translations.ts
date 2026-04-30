@@ -33,6 +33,10 @@ type UIStrings = {
     tagsLabel: string;
     empty: string;
   };
+  projects: {
+    title: string;
+    empty: string;
+  };
   common: {
     switchLang: string;
     switchLangAria: string;
@@ -74,6 +78,10 @@ export const translations: Record<Locale, UIStrings> = {
       tagsLabel: 'Tags',
       empty: 'Todavía no hay posts publicados.',
     },
+    projects: {
+      title: 'Proyectos',
+      empty: 'Todavía no hay proyectos publicados.',
+    },
     common: {
       switchLang: 'EN',
       switchLangAria: 'Cambiar a inglés',
@@ -112,6 +120,10 @@ export const translations: Record<Locale, UIStrings> = {
       readingTimeSuffix: 'min read',
       tagsLabel: 'Tags',
       empty: 'No posts published yet.',
+    },
+    projects: {
+      title: 'Projects',
+      empty: 'No projects published yet.',
     },
     common: {
       switchLang: 'ES',

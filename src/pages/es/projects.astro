@@ -1,0 +1,42 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '../../layouts/PageLayout.astro';
+import ProjectCard from '../../components/projects/ProjectCard.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import { site } from '../../data/site';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const projects = (await getCollection('projects')).sort((a, b) => {
+  if (a.data.featured !== b.data.featured) return a.data.featured ? -1 : 1;
+  return a.data.title.localeCompare(b.data.title);
+});
+
+const alternates = [
+  { lang: 'es', href: `${site.url}/es/projects/` },
+  { lang: 'en', href: `${site.url}/en/projects/` },
+];
+---
+
+<PageLayout title={t.projects.title} alternates={alternates}>
+  <h1 class="text-3xl font-bold text-fg">{t.projects.title}</h1>
+
+  {
+    projects.length === 0 ? (
+      <p class="mt-8 text-muted">{t.projects.empty}</p>
+    ) : (
+      <div class="mt-8">
+        {projects.map((project) => (
+          <ProjectCard
+            title={project.data.title}
+            description={project.data.description}
+            techStack={project.data.techStack}
+            githubUrl={project.data.githubUrl}
+            demoUrl={project.data.demoUrl}
+          />
+        ))}
+      </div>
+    )
+  }
+</PageLayout>
