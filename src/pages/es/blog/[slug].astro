@@ -27,6 +27,7 @@ const { Content } = await post.render();
 const readingMinutes = readingTimeMinutes(post.body);
 
 const slug = post.slug.split('/').at(-1) ?? post.slug;
+const ogImage = `/og/${slug}.png`;
 const alternates = post.data.translatedTo
   ? [
       { lang: 'es', href: `${site.url}/es/blog/${slug}/` },
@@ -41,6 +42,7 @@ const alternates = post.data.translatedTo
   pubDate={post.data.pubDate}
   tags={post.data.tags}
   readingMinutes={readingMinutes}
+  ogImage={ogImage}
   alternates={alternates}
 >
   <Content />
