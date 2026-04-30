@@ -62,8 +62,9 @@ const t = useTranslations(lang);
 </style>
 
 <script>
-  const button = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
-  button?.addEventListener('click', () => {
+  // ThemeToggle aparece dos veces en el header (desktop + mobile bars), por eso
+  // usamos querySelectorAll. El script Astro se hoistea una sola vez por página.
+  function toggleTheme() {
     const isLight = document.documentElement.getAttribute('data-theme') === 'light';
     const next = isLight ? 'dark' : 'light';
     try {
@@ -76,5 +77,9 @@ const t = useTranslations(lang);
     } else {
       document.documentElement.removeAttribute('data-theme');
     }
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]').forEach((button) => {
+    button.addEventListener('click', toggleTheme);
   });
 </script>
