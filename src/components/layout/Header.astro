@@ -38,7 +38,7 @@ const t = useTranslations(lang);
       <ThemeToggle />
       <button
         type="button"
-        class="text-muted transition-colors hover:text-accent"
+        class="-m-2 inline-flex min-h-11 min-w-11 items-center justify-center p-2 text-muted transition-colors hover:text-accent"
         aria-label={t.common.menuToggleAria}
         aria-expanded="false"
         aria-controls="mobile-nav"
@@ -90,7 +90,7 @@ const t = useTranslations(lang);
           <li>
             <a
               href={localizedPath(lang, item.href)}
-              class="block py-3 text-muted transition-colors hover:text-accent"
+              class="block py-4 text-muted transition-colors hover:text-accent"
             >
               {t.nav[item.labelKey]}
             </a>

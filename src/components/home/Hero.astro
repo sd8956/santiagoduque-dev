@@ -6,15 +6,15 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 ---
 
-<section class="py-16">
+<section class="py-12 sm:py-16">
   <p class="mb-2 text-sm text-muted">$ whoami</p>
-  <h1 class="mb-2 text-4xl font-bold">
+  <h1 class="mb-2 text-3xl font-bold sm:text-4xl">
     <span class="text-muted">{t.home.heroIntro}</span>
     {' '}
     <span class="text-fg">{site.author}</span>
   </h1>
-  <p class="text-xl text-muted">{t.home.heroRoleNow}</p>
-  <p class="text-lg text-accent">{t.home.heroRoleNext}</p>
+  <p class="text-lg text-muted sm:text-xl">{t.home.heroRoleNow}</p>
+  <p class="text-base text-accent sm:text-lg">{t.home.heroRoleNext}</p>
 
   <div class="mt-8 flex flex-wrap gap-6 text-sm">
     <a
