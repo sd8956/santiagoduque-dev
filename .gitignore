@@ -148,3 +148,6 @@ vite.config.ts.timestamp-*
 # Cloudflare Pages / Wrangler
 .wrangler/
 .dev.vars
+
+# Generated OG images (built fresh each prebuild)
+/public/og/
