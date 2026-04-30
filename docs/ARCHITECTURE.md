@@ -162,7 +162,7 @@ Define en `tailwind.config.mjs` usando CSS custom properties:
 --bg-secondary: #1a1a1a
 --text-primary: #e5e5e5
 --text-secondary: #a0a0a0
---accent: [Claude Code sugiere basado en principios del sitio]
+--accent: #D4A857
 --border: #2a2a2a
 --code-bg: #161616
 
@@ -171,7 +171,7 @@ Define en `tailwind.config.mjs` usando CSS custom properties:
 --bg-secondary: #ffffff
 --text-primary: #1a1a1a
 --text-secondary: #525252
---accent: [versión oscura del accent color]
+--accent: #7A5A12
 --border: #e5e5e5
 --code-bg: #f5f5f5
 ```
@@ -179,7 +179,7 @@ Define en `tailwind.config.mjs` usando CSS custom properties:
 ### Tipografía
 
 - **Body y código:** JetBrains Mono (self-hosted en `public/fonts/`)
-- **Headings:** JetBrains Mono Bold o una sans moderna como Inter para contraste (a decidir)
+- **Headings:** JetBrains Mono Bold (decisión en ADR 010 — se descartó Inter para mantener coherencia mono-only)
 
 ### Referencias que SÍ capturan la estética correcta
 

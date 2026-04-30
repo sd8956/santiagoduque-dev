@@ -354,6 +354,58 @@ Necesito decidir dónde viven los archivos de documentación del proyecto y cóm
 
 ---
 
+## ADR 010: Accent color del sitio y fuente de headings
+
+**Fecha:** 2026-04-29
+**Estado:** Aceptado
+
+### Contexto
+
+`docs/ARCHITECTURE.md` (secciones "Paleta de colores" y "Tipografía") dejó dos decisiones pendientes que bloquean el inicio del Sprint 1:
+
+1. El valor concreto del token `--accent` (anotado como "Claude Code sugiere basado en principios del sitio").
+2. La fuente de headings (anotada como "JetBrains Mono Bold o una sans moderna como Inter para contraste (a decidir)").
+
+Ambas necesitan fijarse antes de configurar Tailwind (T02 del Sprint 1).
+
+### Opciones consideradas (accent color)
+
+1. **`#7AA2F7`** — Tokyo Night blue. Profesional pero muy visto en la comunidad dev moderna; diferenciación baja.
+2. **`#D4A857`** — Amber muted / brass. Dorado quemado, casi nadie lo usa en blogs técnicos modernos. Connota autoridad senior, terminal vintage sin caer en cliché.
+3. **`#5EEAD4`** — Teal cyan. Asociado con cloud/serverless. Riesgo de leerse como "frontend trendy" si se usa con poca disciplina.
+
+### Decisión
+
+**Accent color:**
+- Dark mode: `#D4A857` (amber muted / brass)
+- Light mode: `#7A5A12` (versión oscura del mismo hue, contraste AA sobre `#fafafa`)
+
+**Headings font:** JetBrains Mono Bold. Se descarta Inter para mantener coherencia mono-only y evitar la complejidad de cargar una segunda familia tipográfica.
+
+### Razón
+
+**Accent:** diferenciación real frente al azul dominante en blogs técnicos. Encaja con la identidad de Security Architect (autoridad sobre novedad). Bajo riesgo de obsolescencia visual.
+
+**Headings:** introducir Inter solo por headings agrega complejidad de carga (otra familia, más `@font-face`, más bytes) y rompe la coherencia mono que es parte del statement estético del sitio. Si emerge necesidad real de contraste tipográfico, reabrir como ADR nuevo.
+
+### Reglas de uso del accent
+
+- **Reservado para:** links inline, headings de sección, prompts (`$`, `>`), estados de focus.
+- **No usar para:** CTAs grandes (riesgo de leerse como warning), fondos de bloques, decoración pura.
+
+### Consecuencias
+
+**Positivas:**
+- Identidad visual definida y consistente.
+- Token `--accent` ya implementable en `tailwind.config.mjs` y `src/styles/global.css`.
+- Una sola familia tipográfica → menos bytes, menos complejidad, mejor LCP.
+
+**Negativas:**
+- Si en el futuro se quiere light mode más vibrante, el `#7A5A12` puede sentirse opaco. Mitigar al implementar light mode.
+- Coherencia mono-only puede sentirse "muy técnica" para audience no-dev. Aceptable: target del sitio son recruiters técnicos y peers de ingeniería.
+
+---
+
 ## Template para ADRs futuros
 
 ```markdown
