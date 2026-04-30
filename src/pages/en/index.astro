@@ -1,0 +1,15 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import Hero from '../../components/home/Hero.astro';
+import { site } from '../../data/site';
+
+const alternates = [
+  { lang: 'es', href: `${site.url}/es/` },
+  { lang: 'en', href: `${site.url}/en/` },
+  { lang: 'x-default', href: `${site.url}/es/` },
+];
+---
+
+<PageLayout title={site.name} alternates={alternates}>
+  <Hero />
+</PageLayout>

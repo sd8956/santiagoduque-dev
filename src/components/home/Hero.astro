@@ -1,0 +1,33 @@
+---
+import { getLangFromUrl, localizedPath, useTranslations } from '../../i18n/utils';
+import { site } from '../../data/site';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<section class="py-16">
+  <p class="mb-2 text-sm text-muted">$ whoami</p>
+  <h1 class="mb-2 text-4xl font-bold">
+    <span class="text-muted">{t.home.heroIntro}</span>
+    {' '}
+    <span class="text-fg">{site.author}</span>
+  </h1>
+  <p class="text-xl text-muted">{t.home.heroRoleNow}</p>
+  <p class="text-lg text-accent">{t.home.heroRoleNext}</p>
+
+  <div class="mt-8 flex flex-wrap gap-6 text-sm">
+    <a
+      href={localizedPath(lang, '/blog/')}
+      class="text-accent underline underline-offset-4 transition-opacity hover:opacity-80"
+    >
+      → {t.home.ctaBlog}
+    </a>
+    <a
+      href={localizedPath(lang, '/about/')}
+      class="text-muted underline underline-offset-4 transition-colors hover:text-accent"
+    >
+      → {t.home.ctaAbout}
+    </a>
+  </div>
+</section>
