@@ -1,5 +1,6 @@
 ---
 import LanguageSwitcher from './LanguageSwitcher.astro';
+import ThemeToggle from './ThemeToggle.astro';
 import { getLangFromUrl, localizedPath, useTranslations } from '../../i18n/utils';
 import { navigation } from '../../data/navigation';
 import { site } from '../../data/site';
@@ -28,6 +29,7 @@ const t = useTranslations(lang);
         ))
       }
       <LanguageSwitcher currentLang={lang} currentPath={Astro.url.pathname} />
+      <ThemeToggle />
     </nav>
   </div>
 </header>

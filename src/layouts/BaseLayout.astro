@@ -33,6 +33,23 @@ const fullTitle = title === site.name ? title : `${title} — ${site.name}`;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <script is:inline>
+      // FOUC-prevention: set theme attribute before paint based on saved
+      // preference, falling back to prefers-color-scheme.
+      (function () {
+        try {
+          var saved = localStorage.getItem('theme');
+          var theme = saved || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+          if (theme === 'light') {
+            document.documentElement.setAttribute('data-theme', 'light');
+          }
+        } catch (e) {
+          /* localStorage may be blocked */
+        }
+      })();
+    </script>
+
     <meta name="generator" content={Astro.generator} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
