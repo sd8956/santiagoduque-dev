@@ -10,14 +10,15 @@ const t = useTranslations(lang);
 ---
 
 <header class="border-b border-line">
-  <div class="mx-auto flex max-w-3xl items-center justify-between px-4 py-6">
+  <div class="mx-auto flex max-w-3xl items-center justify-between gap-3 px-4 py-6">
     <a
       href={`/${lang}/`}
       class="font-bold text-fg transition-colors hover:text-accent"
     >
       {site.name}
     </a>
-    <nav class="flex items-center gap-6 text-sm">
+
+    <nav class="hidden items-center gap-6 text-sm sm:flex">
       {
         navigation.map((item) => (
           <a
@@ -31,5 +32,105 @@ const t = useTranslations(lang);
       <LanguageSwitcher currentLang={lang} currentPath={Astro.url.pathname} />
       <ThemeToggle />
     </nav>
+
+    <div class="flex items-center gap-4 text-sm sm:hidden">
+      <LanguageSwitcher currentLang={lang} currentPath={Astro.url.pathname} />
+      <ThemeToggle />
+      <button
+        type="button"
+        class="text-muted transition-colors hover:text-accent"
+        aria-label={t.common.menuToggleAria}
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+        data-menu-toggle
+      >
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="square"
+          aria-hidden="true"
+          data-menu-icon-open
+        >
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="square"
+          aria-hidden="true"
+          data-menu-icon-close
+          style="display:none;"
+        >
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+          <line x1="6" y1="18" x2="18" y2="6"></line>
+        </svg>
+      </button>
+    </div>
   </div>
+
+  <nav
+    id="mobile-nav"
+    class="border-t border-line sm:hidden"
+    data-mobile-menu
+    hidden
+  >
+    <ul class="mx-auto flex max-w-3xl flex-col px-4 py-2 text-sm">
+      {
+        navigation.map((item) => (
+          <li>
+            <a
+              href={localizedPath(lang, item.href)}
+              class="block py-3 text-muted transition-colors hover:text-accent"
+            >
+              {t.nav[item.labelKey]}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
 </header>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const menu = document.querySelector<HTMLElement>('[data-mobile-menu]');
+  const iconOpen = document.querySelector<SVGElement>('[data-menu-icon-open]');
+  const iconClose = document.querySelector<SVGElement>('[data-menu-icon-close]');
+
+  if (toggle && menu && iconOpen && iconClose) {
+    const close = () => {
+      menu.setAttribute('hidden', '');
+      toggle.setAttribute('aria-expanded', 'false');
+      iconOpen.style.display = '';
+      iconClose.style.display = 'none';
+    };
+
+    toggle.addEventListener('click', () => {
+      const expanded = toggle.getAttribute('aria-expanded') === 'true';
+      if (expanded) {
+        close();
+      } else {
+        menu.removeAttribute('hidden');
+        toggle.setAttribute('aria-expanded', 'true');
+        iconOpen.style.display = 'none';
+        iconClose.style.display = '';
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+        close();
+      }
+    });
+  }
+</script>

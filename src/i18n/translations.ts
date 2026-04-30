@@ -50,6 +50,7 @@ type UIStrings = {
     switchLangAria: string;
     skipToContent: string;
     themeToggleAria: string;
+    menuToggleAria: string;
   };
 };
 
@@ -104,6 +105,7 @@ export const translations: Record<Locale, UIStrings> = {
       switchLangAria: 'Cambiar a inglés',
       skipToContent: 'Saltar al contenido',
       themeToggleAria: 'Cambiar entre modo claro y oscuro',
+      menuToggleAria: 'Abrir menú de navegación',
     },
   },
   en: {
@@ -156,6 +158,7 @@ export const translations: Record<Locale, UIStrings> = {
       switchLangAria: 'Switch to Spanish',
       skipToContent: 'Skip to content',
       themeToggleAria: 'Toggle light and dark theme',
+      menuToggleAria: 'Open navigation menu',
     },
   },
 };
