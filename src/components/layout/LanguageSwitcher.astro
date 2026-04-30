@@ -5,11 +5,17 @@ import type { Locale } from '../../i18n/config';
 interface Props {
   currentLang: Locale;
   currentPath: string;
+  /**
+   * Override target URL for the other language. Used by pages with asymmetric
+   * routes (e.g. blog posts whose slugs differ per language). Falls back to
+   * naive prefix swap when omitted.
+   */
+  alternatePath?: string;
 }
 
-const { currentLang, currentPath } = Astro.props;
+const { currentLang, currentPath, alternatePath } = Astro.props;
 const otherLang: Locale = currentLang === 'es' ? 'en' : 'es';
-const targetPath = switchLangPath(currentPath, otherLang);
+const targetPath = alternatePath ?? switchLangPath(currentPath, otherLang);
 const t = useTranslations(currentLang);
 ---
 

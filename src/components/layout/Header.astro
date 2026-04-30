@@ -5,6 +5,11 @@ import { getLangFromUrl, localizedPath, useTranslations } from '../../i18n/utils
 import { navigation } from '../../data/navigation';
 import { site } from '../../data/site';
 
+interface Props {
+  alternatePath?: string;
+}
+
+const { alternatePath } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 ---
@@ -29,12 +34,20 @@ const t = useTranslations(lang);
           </a>
         ))
       }
-      <LanguageSwitcher currentLang={lang} currentPath={Astro.url.pathname} />
+      <LanguageSwitcher
+        currentLang={lang}
+        currentPath={Astro.url.pathname}
+        alternatePath={alternatePath}
+      />
       <ThemeToggle />
     </nav>
 
     <div class="flex items-center gap-4 text-sm sm:hidden">
-      <LanguageSwitcher currentLang={lang} currentPath={Astro.url.pathname} />
+      <LanguageSwitcher
+        currentLang={lang}
+        currentPath={Astro.url.pathname}
+        alternatePath={alternatePath}
+      />
       <ThemeToggle />
       <button
         type="button"

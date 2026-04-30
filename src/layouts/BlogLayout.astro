@@ -17,14 +17,30 @@ interface Props {
   readingMinutes: number;
   ogImage?: string;
   alternates?: Alternate[];
+  alternatePath?: string;
 }
 
-const { title, description, pubDate, tags, readingMinutes, ogImage, alternates } = Astro.props;
+const {
+  title,
+  description,
+  pubDate,
+  tags,
+  readingMinutes,
+  ogImage,
+  alternates,
+  alternatePath,
+} = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 ---
 
-<PageLayout title={title} description={description} ogImage={ogImage} alternates={alternates}>
+<PageLayout
+  title={title}
+  description={description}
+  ogImage={ogImage}
+  alternates={alternates}
+  alternatePath={alternatePath}
+>
   <article>
     <header class="mb-10">
       <h1 class="mb-4 text-3xl font-bold text-fg">{title}</h1>

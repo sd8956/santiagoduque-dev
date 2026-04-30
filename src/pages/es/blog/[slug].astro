@@ -34,6 +34,9 @@ const alternates = post.data.translatedTo
       { lang: 'en', href: `${site.url}/en/blog/${post.data.translatedTo}/` },
     ]
   : [{ lang: 'es', href: `${site.url}/es/blog/${slug}/` }];
+const alternatePath = post.data.translatedTo
+  ? `/en/blog/${post.data.translatedTo}/`
+  : '/en/blog/';
 ---
 
 <BlogLayout
@@ -44,6 +47,7 @@ const alternates = post.data.translatedTo
   readingMinutes={readingMinutes}
   ogImage={ogImage}
   alternates={alternates}
+  alternatePath={alternatePath}
 >
   <Content />
 </BlogLayout>
