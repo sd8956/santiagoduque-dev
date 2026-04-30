@@ -1,5 +1,6 @@
 ---
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import { site } from '../../data/site';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -9,9 +10,27 @@ const copyright = t.footer.copyright.replace('{year}', String(year));
 
 <footer class="mt-16 border-t border-line">
   <div
-    class="mx-auto flex max-w-3xl flex-col gap-2 px-4 py-8 text-sm text-muted sm:flex-row sm:justify-between"
+    class="mx-auto flex max-w-3xl flex-col gap-3 px-4 py-8 text-sm text-muted sm:flex-row sm:items-center sm:justify-between"
   >
     <span>{copyright}</span>
+    <nav class="flex items-center gap-4">
+      <a
+        href={site.social.github}
+        rel="me noopener"
+        target="_blank"
+        class="transition-colors hover:text-accent"
+      >
+        github
+      </a>
+      <a
+        href={site.social.linkedin}
+        rel="me noopener"
+        target="_blank"
+        class="transition-colors hover:text-accent"
+      >
+        linkedin
+      </a>
+    </nav>
     <span>{t.footer.builtWith}</span>
   </div>
 </footer>
