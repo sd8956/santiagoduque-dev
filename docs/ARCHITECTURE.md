@@ -61,8 +61,6 @@ santiagoduque-dev/
 │   │   │   │   ├── index.astro
 │   │   │   │   └── [slug].astro
 │   │   │   ├── projects.astro
-│   │   │   ├── now.astro
-│   │   │   ├── uses.astro
 │   │   │   └── contact.astro
 │   │   ├── en/                  # Misma estructura que es/
 │   │   ├── rss.xml.js
@@ -93,7 +91,7 @@ santiagoduque-dev/
 
 ## Páginas del sitio
 
-El sitio tiene 7 páginas principales, ambas duplicadas por idioma:
+El sitio tiene 5 páginas principales, ambas duplicadas por idioma:
 
 | Ruta | Propósito |
 |---|---|
@@ -102,9 +100,9 @@ El sitio tiene 7 páginas principales, ambas duplicadas por idioma:
 | `/blog` | Listado de posts con filtros por tag |
 | `/blog/[slug]` | Post individual |
 | `/projects` | Portfolio de proyectos técnicos |
-| `/now` | Qué estoy haciendo actualmente (se actualiza mensualmente) |
-| `/uses` | Herramientas y setup |
 | `/contact` | Formas de contacto |
+
+> **Nota**: el plan original incluía también `/now` (status mensual) y `/uses` (herramientas/setup). Ambas removidas del scope: la dedicación de mantenerlas actualizadas no justifica el ROI para esta fase del blog.
 
 ## Internacionalización (i18n)
 
