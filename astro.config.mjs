@@ -31,7 +31,10 @@ export default defineConfig({
         defaultLocale: 'es',
         locales: { es: 'es', en: 'en' },
       },
-      filter: (page) => !page.includes('rss.xml'),
+      // sitemap i18n config requires every URL to live under /es/ or /en/.
+      // Exclude the root redirect (/) and the RSS endpoints, which break the
+      // locale grouping with "Cannot read properties of undefined (reading 'reduce')".
+      filter: (page) => /\/(es|en)\//.test(page) && !page.includes('/rss.xml'),
     }),
   ],
 });
