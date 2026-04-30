@@ -1,0 +1,18 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import AboutContent from '../../components/about/AboutContent.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import { site } from '../../data/site';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const alternates = [
+  { lang: 'es', href: `${site.url}/es/about/` },
+  { lang: 'en', href: `${site.url}/en/about/` },
+];
+---
+
+<PageLayout title={t.about.title} alternates={alternates}>
+  <AboutContent />
+</PageLayout>

@@ -1,0 +1,101 @@
+---
+import CVSection from './CVSection.astro';
+import { cv } from '../../data/cv';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const fmtMonth = (iso: string): string => {
+  const [year, month] = iso.split('-');
+  return month ? `${month}/${year}` : (year ?? iso);
+};
+
+const presentLabel = lang === 'es' ? 'presente' : 'present';
+---
+
+<h1 class="text-3xl font-bold text-fg">{t.about.title}</h1>
+
+<CVSection title={t.about.summary}>
+  <p class="leading-relaxed text-fg">{cv.summary[lang]}</p>
+</CVSection>
+
+<CVSection title={t.about.experience}>
+  <ul class="space-y-6">
+    {
+      cv.experience.map((exp) => (
+        <li>
+          <div class="flex flex-wrap items-baseline justify-between gap-2">
+            <span class="font-bold text-fg">
+              {exp.role} · {exp.company}
+            </span>
+            <span class="text-sm text-muted">
+              {fmtMonth(exp.start)} — {exp.end ? fmtMonth(exp.end) : presentLabel}
+            </span>
+          </div>
+          <ul class="mt-2 list-disc pl-6 text-fg">
+            {exp.highlights.map((h) => (
+              <li>{h[lang]}</li>
+            ))}
+          </ul>
+        </li>
+      ))
+    }
+  </ul>
+</CVSection>
+
+<CVSection title={t.about.education}>
+  <ul class="space-y-3">
+    {
+      cv.education.map((ed) => (
+        <li>
+          <div class="flex flex-wrap items-baseline justify-between gap-2">
+            <span class="font-bold text-fg">{ed.degree[lang]}</span>
+            <span class="text-sm text-muted">
+              {ed.start} — {ed.end}
+            </span>
+          </div>
+          <p class="text-muted">{ed.institution}</p>
+        </li>
+      ))
+    }
+  </ul>
+</CVSection>
+
+<CVSection title={t.about.skills}>
+  <ul class="space-y-3">
+    {
+      cv.skills.map((s) => (
+        <li>
+          <span class="font-bold text-fg">{s.category[lang]}:</span>{' '}
+          <span class="text-muted">{s.items.join(' · ')}</span>
+        </li>
+      ))
+    }
+  </ul>
+</CVSection>
+
+<CVSection title={t.about.certifications}>
+  <ul class="space-y-2">
+    {
+      cv.certifications.map((c) => (
+        <li>
+          <span class="font-bold text-fg">{c.name}</span>
+          <span class="text-muted">
+            {' '}· {c.issuer} · {fmtMonth(c.date)}
+          </span>
+        </li>
+      ))
+    }
+  </ul>
+</CVSection>
+
+<p class="mt-12">
+  <a
+    href="/cv.pdf"
+    class="text-accent underline underline-offset-4 transition-opacity hover:opacity-80"
+    download
+  >
+    → {t.about.downloadCV}
+  </a>
+</p>
