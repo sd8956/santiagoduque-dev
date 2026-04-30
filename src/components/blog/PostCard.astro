@@ -1,0 +1,39 @@
+---
+import { formatDate } from '../../utils/dates';
+import { getLangFromUrl, localizedPath } from '../../i18n/utils';
+
+interface Props {
+  slug: string;
+  title: string;
+  description: string;
+  pubDate: Date;
+  tags: string[];
+}
+
+const { slug, title, description, pubDate, tags } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+---
+
+<article class="border-b border-line py-6">
+  <a href={localizedPath(lang, `/blog/${slug}/`)} class="group block">
+    <div class="flex flex-wrap items-baseline gap-3 text-sm text-muted">
+      <time datetime={pubDate.toISOString()}>{formatDate(pubDate, lang)}</time>
+      {
+        tags.length > 0 && (
+          <>
+            <span aria-hidden="true">·</span>
+            <ul class="flex gap-2">
+              {tags.map((tag) => (
+                <li class="text-accent">#{tag}</li>
+              ))}
+            </ul>
+          </>
+        )
+      }
+    </div>
+    <h2 class="mt-2 text-xl font-bold text-fg transition-colors group-hover:text-accent">
+      {title}
+    </h2>
+    <p class="mt-1 text-muted">{description}</p>
+  </a>
+</article>
