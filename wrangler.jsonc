@@ -1,0 +1,13 @@
+{
+  // Static-only deploy — no Worker script, just CDN-served assets.
+  // Astro emits to dist/ (including dist/pagefind/ from postbuild),
+  // and Cloudflare Workers Static Assets serves the whole tree.
+  "name": "santiagoduque-dev",
+  "compatibility_date": "2026-05-01",
+  "assets": {
+    "directory": "./dist",
+  },
+  "observability": {
+    "enabled": true,
+  },
+}
