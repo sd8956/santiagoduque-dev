@@ -6,7 +6,7 @@
   "description": "Blog personal y portafolio profesional de Santiago Duque.",
   "license": "MIT",
   "engines": {
-    "node": ">=20"
+    "node": ">=22.12.0"
   },
   "packageManager": "pnpm@10.33.2",
   "scripts": {

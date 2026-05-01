@@ -18,7 +18,7 @@ Tech Lead & Senior Software Engineer especializado en AWS serverless y arquitect
 
 Requisitos previos:
 
-- Node.js 20+
+- Node.js 22.12+
 - pnpm 8+
 
 ```bash
