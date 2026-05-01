@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import { getLangFromUrl } from '../i18n/utils';
 import { site } from '../data/site';
+import SearchDialog from '../components/search/SearchDialog.astro';
 
 interface Alternate {
   lang: string;
@@ -40,7 +41,8 @@ const fullTitle = title === site.name ? title : `${title} — ${site.name}`;
       (function () {
         try {
           var saved = localStorage.getItem('theme');
-          var theme = saved || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+          var theme =
+            saved || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
           if (theme === 'light') {
             document.documentElement.setAttribute('data-theme', 'light');
           }
@@ -86,5 +88,6 @@ const fullTitle = title === site.name ? title : `${title} — ${site.name}`;
   </head>
   <body>
     <slot />
+    <SearchDialog />
   </body>
 </html>

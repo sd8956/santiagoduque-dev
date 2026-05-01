@@ -1,6 +1,7 @@
 # Contribuir al proyecto
 
 Aunque es un proyecto personal, mantener convenciones claras ayuda a:
+
 - Cualquier agente de IA trabajando en el código
 - Mi yo futuro que olvidó cómo funcionaba algo
 - Cualquier persona que clone el repo para inspirarse
@@ -31,6 +32,7 @@ style: adjust spacing in hero section
 ### Pull requests
 
 Sí, hacer PRs incluso siendo proyecto solo. Razón:
+
 - Preview deploys automáticos en Cloudflare
 - Diff review obligatorio (atrapa errores)
 - Historia limpia de cambios
@@ -40,17 +42,21 @@ Sí, hacer PRs incluso siendo proyecto solo. Razón:
 ### Flujo completo
 
 1. **Crear archivo** con el comando:
+
    ```bash
    pnpm new-post
    ```
+
    El script pregunta: idioma, título, tags, slug.
 
 2. **Escribir contenido** en el archivo creado.
 
 3. **Revisar preview local:**
+
    ```bash
    pnpm dev
    ```
+
    Ir a `http://localhost:4321/{es|en}/blog/{slug}` y revisar.
 
 4. **Quitar `draft: true`** cuando esté listo para publicar.
@@ -69,11 +75,11 @@ Sí, hacer PRs incluso siendo proyecto solo. Razón:
 
 ```yaml
 ---
-title: "Title exact as will appear"
-description: "150-160 char description for SEO and cards"
+title: 'Title exact as will appear'
+description: '150-160 char description for SEO and cards'
 pubDate: 2026-02-15
-language: "en"                    # "en" o "es"
-tags: ["aws", "security"]
+language: 'en' # "en" o "es"
+tags: ['aws', 'security']
 featured: false
 draft: false
 ---
@@ -82,10 +88,10 @@ draft: false
 ### Frontmatter opcional
 
 ```yaml
-canonicalUrl: "https://..."        # Si es cross-post
-translatedTo: "slug-otro-idioma"   # Si hay versión traducida
-translatedFrom: "slug-original"
-coverImage: "/images/cover.png"
+canonicalUrl: 'https://...' # Si es cross-post
+translatedTo: 'slug-otro-idioma' # Si hay versión traducida
+translatedFrom: 'slug-original'
+coverImage: '/images/cover.png'
 ```
 
 ## Crear nuevo proyecto (portfolio)
@@ -94,14 +100,14 @@ coverImage: "/images/cover.png"
 2. **Frontmatter:**
    ```yaml
    ---
-   title: "Project Name"
-   description: "Short description"
-   techStack: ["TypeScript", "AWS CDK", "Python"]
-   githubUrl: "https://github.com/..."
-   demoUrl: "https://..."            # opcional
-   blogPostSlug: "my-related-post"   # opcional, post que explica el proyecto
+   title: 'Project Name'
+   description: 'Short description'
+   techStack: ['TypeScript', 'AWS CDK', 'Python']
+   githubUrl: 'https://github.com/...'
+   demoUrl: 'https://...' # opcional
+   blogPostSlug: 'my-related-post' # opcional, post que explica el proyecto
    featured: false
-   coverImage: "/images/projects/..."
+   coverImage: '/images/projects/...'
    ---
    ```
 3. **Body del archivo:** descripción larga del proyecto en markdown.
@@ -111,6 +117,7 @@ coverImage: "/images/cover.png"
 CV data vive en `src/data/cv.ts` como objeto TypeScript tipado.
 
 Actualizar allí propaga a:
+
 - Página `/about`
 - Metadata estructurada (JSON-LD)
 - Generador de PDF si está implementado
@@ -128,6 +135,7 @@ Actualizar allí propaga a:
 
 - **Un componente por archivo.**
 - **Props con TypeScript interface:**
+
   ```astro
   ---
   interface Props {
@@ -139,6 +147,7 @@ Actualizar allí propaga a:
   const { title, date, tags = [] } = Astro.props;
   ---
   ```
+
 - **Slots nombrados** cuando el componente tiene múltiples áreas de contenido.
 - **No scripts client-side** a menos que sea absolutamente necesario (usa `client:idle` o `client:visible`).
 
@@ -167,7 +176,7 @@ Checklist para cada post antes de pasar `draft: false`:
 - [ ] Headings bien estructurados (H2 → H3 → H4, no saltar niveles)
 - [ ] Código con lenguaje especificado en code blocks
 - [ ] Links internos a otros posts relacionados si aplica
-- [ ] Enlaces externos abren en nueva pestaña (target="_blank" con rel="noopener")
+- [ ] Enlaces externos abren en nueva pestaña (target="\_blank" con rel="noopener")
 - [ ] Leer en voz alta al menos una vez (atrapa errores de flujo)
 - [ ] Pasar por Grammarly o similar si es post largo en inglés
 

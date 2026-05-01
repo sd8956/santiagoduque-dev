@@ -69,6 +69,7 @@ Si vas a hacer alguna de estas, **PARA y pregunta al humano primero**:
 ### Asumir contexto que no tienes
 
 Si algo no está claro:
+
 - ¿No sabes si esa decisión está documentada? → busca en `docs/DECISIONS.md`
 - ¿No sabes si ya existe un componente similar? → busca en `src/components/`
 - ¿No sabes qué espera el humano? → pregunta antes de adivinar
@@ -148,14 +149,14 @@ Ver ADR 003 y ADR 004 en `docs/DECISIONS.md` para razonamiento.
 
 ## Stack técnico (resumen)
 
-| Capa | Tecnología |
-|---|---|
-| Framework | Astro 4.x |
-| Lenguaje | TypeScript (strict) |
-| Estilos | TailwindCSS |
-| Contenido | MDX + Content Collections |
-| Package manager | pnpm |
-| Hosting | Cloudflare Pages |
+| Capa            | Tecnología                |
+| --------------- | ------------------------- |
+| Framework       | Astro 4.x                 |
+| Lenguaje        | TypeScript (strict)       |
+| Estilos         | TailwindCSS               |
+| Contenido       | MDX + Content Collections |
+| Package manager | pnpm                      |
+| Hosting         | Cloudflare Pages          |
 
 Detalles completos en `docs/ARCHITECTURE.md`.
 

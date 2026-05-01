@@ -20,16 +20,8 @@ interface Props {
   alternatePath?: string;
 }
 
-const {
-  title,
-  description,
-  pubDate,
-  tags,
-  readingMinutes,
-  ogImage,
-  alternates,
-  alternatePath,
-} = Astro.props;
+const { title, description, pubDate, tags, readingMinutes, ogImage, alternates, alternatePath } =
+  Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 ---

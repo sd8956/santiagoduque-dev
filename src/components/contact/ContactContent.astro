@@ -7,8 +7,16 @@ const t = useTranslations(lang);
 
 const links = [
   { label: t.contact.emailLabel, href: `mailto:${site.email}`, value: site.email },
-  { label: t.contact.githubLabel, href: site.social.github, value: site.social.github.replace(/^https?:\/\//, '') },
-  { label: t.contact.linkedinLabel, href: site.social.linkedin, value: site.social.linkedin.replace(/^https?:\/\//, '') },
+  {
+    label: t.contact.githubLabel,
+    href: site.social.github,
+    value: site.social.github.replace(/^https?:\/\//, ''),
+  },
+  {
+    label: t.contact.linkedinLabel,
+    href: site.social.linkedin,
+    value: site.social.linkedin.replace(/^https?:\/\//, ''),
+  },
 ];
 ---
 

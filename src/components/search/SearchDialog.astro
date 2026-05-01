@@ -1,0 +1,271 @@
+---
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<dialog
+  class="search-dialog"
+  data-search-dialog
+  data-translations-initial={t.common.searchInitial}
+  data-translations-no-results={t.common.searchNoResults}
+  data-translations-unavailable={t.common.searchUnavailable}
+  aria-label={t.common.search}
+>
+  <div class="search-content">
+    <header class="flex items-center gap-2 border-b border-line p-3">
+      <svg
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="square"
+        class="text-muted"
+        aria-hidden="true"
+      >
+        <circle cx="11" cy="11" r="7"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input
+        type="search"
+        class="flex-1 bg-transparent text-fg outline-none placeholder:text-muted"
+        placeholder={t.common.searchPlaceholder}
+        aria-label={t.common.searchPlaceholder}
+        autocomplete="off"
+        spellcheck="false"
+        data-search-input
+      />
+      <button
+        type="button"
+        class="-m-1 inline-flex h-8 w-8 items-center justify-center text-muted transition-colors hover:text-accent"
+        aria-label={t.common.close}
+        data-search-close
+      >
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="square"
+          aria-hidden="true"
+        >
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+          <line x1="6" y1="18" x2="18" y2="6"></line>
+        </svg>
+      </button>
+    </header>
+    <div
+      class="search-results max-h-[60vh] overflow-y-auto p-2"
+      data-search-results
+      role="listbox"
+      aria-live="polite"
+    >
+      <p class="px-2 py-3 text-sm text-muted">{t.common.searchInitial}</p>
+    </div>
+  </div>
+</dialog>
+
+<style is:global>
+  .search-dialog {
+    margin: auto;
+    width: min(640px, 92vw);
+    max-height: 80vh;
+    padding: 0;
+    background: rgb(var(--bg-secondary));
+    color: rgb(var(--text-primary));
+    border: 1px solid rgb(var(--border));
+    border-radius: 6px;
+    box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.6);
+  }
+  .search-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(2px);
+  }
+  .search-dialog[open] {
+    animation: search-in 120ms ease-out;
+  }
+  @keyframes search-in {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .search-result {
+    display: block;
+    padding: 0.75rem;
+    border-radius: 4px;
+    color: rgb(var(--text-primary));
+    text-decoration: none;
+    transition: background-color 100ms;
+  }
+  .search-result:hover,
+  .search-result:focus-visible {
+    background: rgb(var(--bg-primary));
+    outline: none;
+  }
+  .search-result h3 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin: 0;
+  }
+  .search-result p {
+    font-size: 0.85rem;
+    color: rgb(var(--text-secondary));
+    margin: 0.25rem 0 0;
+    line-height: 1.45;
+  }
+  .search-result mark {
+    background: transparent;
+    color: rgb(var(--accent));
+    font-weight: 700;
+  }
+</style>
+
+<script>
+  type PagefindResult = {
+    url: string;
+    excerpt: string;
+    meta: { title?: string };
+  };
+  type PagefindAPI = {
+    search(query: string): Promise<{
+      results: Array<{ data(): Promise<PagefindResult> }>;
+    }>;
+  };
+
+  const dialog = document.querySelector<HTMLDialogElement>('[data-search-dialog]');
+  const closeBtn = document.querySelector<HTMLButtonElement>('[data-search-close]');
+  const input = document.querySelector<HTMLInputElement>('[data-search-input]');
+  const resultsEl = document.querySelector<HTMLElement>('[data-search-results]');
+
+  const labels = {
+    initial: dialog?.dataset.translationsInitial ?? '',
+    noResults: dialog?.dataset.translationsNoResults ?? '',
+    unavailable: dialog?.dataset.translationsUnavailable ?? '',
+  };
+
+  let pagefindPromise: Promise<PagefindAPI | null> | null = null;
+
+  async function loadPagefind(): Promise<PagefindAPI | null> {
+    pagefindPromise ??= (async () => {
+      // Resolve URL via a string variable so TypeScript doesn't try to
+      // type-check the runtime import path (Pagefind output is generated
+      // at postbuild time, not present in src/).
+      const url = '/pagefind/pagefind.js';
+      try {
+        return (await import(/* @vite-ignore */ url)) as PagefindAPI;
+      } catch {
+        return null;
+      }
+    })();
+    return pagefindPromise;
+  }
+
+  function open() {
+    if (!dialog) return;
+    dialog.showModal();
+    void loadPagefind();
+    requestAnimationFrame(() => input?.focus());
+  }
+
+  function close() {
+    dialog?.close();
+  }
+
+  function renderEmpty(message: string) {
+    if (!resultsEl) return;
+    resultsEl.replaceChildren();
+    const p = document.createElement('p');
+    p.className = 'px-2 py-3 text-sm text-muted';
+    p.textContent = message;
+    resultsEl.append(p);
+  }
+
+  function renderResults(results: PagefindResult[]) {
+    if (!resultsEl) return;
+    resultsEl.replaceChildren();
+    for (const r of results) {
+      const a = document.createElement('a');
+      a.href = r.url;
+      a.className = 'search-result';
+      a.setAttribute('role', 'option');
+      const h3 = document.createElement('h3');
+      h3.textContent = r.meta.title ?? r.url;
+      const p = document.createElement('p');
+      // Pagefind excerpts include <mark>...</mark> for matched terms; the rest
+      // is HTML-escaped by Pagefind. innerHTML is safe here.
+      p.innerHTML = r.excerpt;
+      a.append(h3, p);
+      resultsEl.append(a);
+    }
+  }
+
+  let searchToken = 0;
+  let debounceTimer: number | null = null;
+
+  async function runSearch(query: string) {
+    const token = ++searchToken;
+    if (!query) {
+      renderEmpty(labels.initial);
+      return;
+    }
+    const pagefind = await loadPagefind();
+    if (token !== searchToken) return;
+    if (!pagefind) {
+      renderEmpty(labels.unavailable);
+      return;
+    }
+    try {
+      const search = await pagefind.search(query);
+      if (token !== searchToken) return;
+      const results = await Promise.all(search.results.slice(0, 8).map((r) => r.data()));
+      if (token !== searchToken) return;
+      if (results.length === 0) {
+        renderEmpty(labels.noResults);
+        return;
+      }
+      renderResults(results);
+    } catch {
+      renderEmpty(labels.unavailable);
+    }
+  }
+
+  window.addEventListener('search:open', open);
+  closeBtn?.addEventListener('click', close);
+
+  input?.addEventListener('input', () => {
+    if (debounceTimer) clearTimeout(debounceTimer);
+    debounceTimer = window.setTimeout(() => void runSearch(input.value.trim()), 150);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    const isCmdK = (e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k';
+    if (isCmdK) {
+      e.preventDefault();
+      if (dialog?.open) close();
+      else open();
+      return;
+    }
+    if (e.key === 'Escape' && dialog?.open) {
+      close();
+    }
+  });
+
+  dialog?.addEventListener('click', (e) => {
+    if (e.target === dialog) close();
+  });
+
+  dialog?.addEventListener('close', () => {
+    if (input) input.value = '';
+    renderEmpty(labels.initial);
+  });
+</script>
