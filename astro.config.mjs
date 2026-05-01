@@ -94,8 +94,7 @@ export default defineConfig({
         const pair = blogTranslationMap.get(`${lang}/${slug}`);
         if (!pair) return item;
 
-        const buildHref = (l) =>
-          new URL(`/${l}/blog/${pair[l]}/`, SITE_URL).href;
+        const buildHref = (l) => new URL(`/${l}/blog/${pair[l]}/`, SITE_URL).href;
 
         if (pair.es && pair.en) {
           item.links = [
@@ -104,9 +103,7 @@ export default defineConfig({
             { lang: 'x-default', url: buildHref(DEFAULT_LOCALE) },
           ];
         } else {
-          item.links = [
-            { lang: lang === 'es' ? 'es-ES' : 'en-US', url: item.url },
-          ];
+          item.links = [{ lang: lang === 'es' ? 'es-ES' : 'en-US', url: item.url }];
         }
         return item;
       },

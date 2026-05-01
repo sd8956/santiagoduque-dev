@@ -4,15 +4,16 @@ Este documento describe decisiones técnicas y estructura del proyecto.
 
 ## Stack definitivo
 
-| Capa | Tecnología | Razón breve |
-|---|---|---|
-| Framework | Astro 4.x | Static-first, SEO excelente, DX moderna |
-| Lenguaje | TypeScript strict | Type safety, mejor DX con agentes de IA |
-| Estilos | TailwindCSS | Utility-first, consistencia, rapidez |
-| Contenido | MDX + Content Collections | Markdown con componentes cuando haga falta |
-| Package manager | pnpm | Velocidad y eficiencia de disco |
-| Hosting | Cloudflare Pages | Gratis, rápido, analytics incluido |
-| Fuente principal | JetBrains Mono | Monospace profesional de calidad |
+| Capa             | Tecnología                                         | Razón breve                                                        |
+| ---------------- | -------------------------------------------------- | ------------------------------------------------------------------ |
+| Framework        | Astro 6.x                                          | Static-first, SEO excelente, DX moderna (ADR 001, ADR 011)         |
+| Lenguaje         | TypeScript strict                                  | Type safety, mejor DX con agentes de IA                            |
+| Estilos          | TailwindCSS v4 (CSS-first) vía `@tailwindcss/vite` | Utility-first, runtime CSS vars para light/dark (ADR 002, ADR 012) |
+| Contenido        | Markdown + Content Layer API                       | Schemas zod, glob loader (ADR 013)                                 |
+| SEO sitemap      | `@astrojs/sitemap` con i18n + serialize custom     | Hreflang cross-language por `translatedTo` (ADR 014)               |
+| Package manager  | pnpm                                               | Velocidad y eficiencia de disco                                    |
+| Hosting          | Cloudflare Pages                                   | Gratis, rápido, analytics incluido                                 |
+| Fuente principal | JetBrains Mono                                     | Monospace profesional de calidad                                   |
 
 Ver [DECISIONS.md](./DECISIONS.md) para justificaciones completas.
 
@@ -34,12 +35,12 @@ santiagoduque-dev/
 │   └── cv.pdf
 │
 ├── src/
-│   ├── content/                 # Content Collections de Astro
+│   ├── content.config.ts       # Content Layer collection schemas (raíz de src/)
+│   ├── content/                 # Content Collections (cargadas vía glob loader)
 │   │   ├── blog/
-│   │   │   ├── es/              # Posts en español (.md o .mdx)
-│   │   │   └── en/              # Posts en inglés (.md o .mdx)
-│   │   ├── projects/            # Proyectos del portfolio
-│   │   └── config.ts            # Schemas de Content Collections
+│   │   │   ├── es/              # Posts en español (.md)
+│   │   │   └── en/              # Posts en inglés (.md)
+│   │   └── projects/            # Proyectos del portfolio
 │   │
 │   ├── components/
 │   │   ├── layout/              # Header, Footer, LanguageSwitcher
@@ -63,8 +64,8 @@ santiagoduque-dev/
 │   │   │   ├── projects.astro
 │   │   │   └── contact.astro
 │   │   ├── en/                  # Misma estructura que es/
-│   │   ├── rss.xml.js
-│   │   └── sitemap.xml.js
+│   │   ├── es/rss.xml.ts
+│   │   └── en/rss.xml.ts        # /sitemap-index.xml lo emite @astrojs/sitemap (no archivo en pages/)
 │   │
 │   ├── i18n/
 │   │   ├── translations.ts      # Strings de UI en ambos idiomas
@@ -93,14 +94,14 @@ santiagoduque-dev/
 
 El sitio tiene 5 páginas principales, ambas duplicadas por idioma:
 
-| Ruta | Propósito |
-|---|---|
-| `/` | Landing con hero, proyectos destacados, posts recientes |
-| `/about` | CV completo en formato legible + link a PDF |
-| `/blog` | Listado de posts con filtros por tag |
-| `/blog/[slug]` | Post individual |
-| `/projects` | Portfolio de proyectos técnicos |
-| `/contact` | Formas de contacto |
+| Ruta           | Propósito                                               |
+| -------------- | ------------------------------------------------------- |
+| `/`            | Landing con hero, proyectos destacados, posts recientes |
+| `/about`       | CV completo en formato legible + link a PDF             |
+| `/blog`        | Listado de posts con filtros por tag                    |
+| `/blog/[slug]` | Post individual                                         |
+| `/projects`    | Portfolio de proyectos técnicos                         |
+| `/contact`     | Formas de contacto                                      |
 
 > **Nota**: el plan original incluía también `/now` (status mensual) y `/uses` (herramientas/setup). Ambas removidas del scope: la dedicación de mantenerlas actualizadas no justifica el ROI para esta fase del blog.
 
@@ -127,16 +128,16 @@ santiagoduque.dev/en/       → home en inglés
 ```yaml
 ---
 title: "Title in the post's language"
-description: "Short description for SEO and cards"
+description: 'Short description for SEO and cards'
 pubDate: 2026-02-15
-language: "en"                    # "en" o "es"
-tags: ["aws", "security"]
-featured: false                    # Aparece en home si true
+language: 'en' # "en" o "es"
+tags: ['aws', 'security']
+featured: false # Aparece en home si true
 draft: false
-canonicalUrl: "https://..."        # Para cross-posts a dev.to
-translatedTo: "slug-en-otro-idioma"   # opcional
+canonicalUrl: 'https://...' # Para cross-posts a dev.to
+translatedTo: 'slug-en-otro-idioma' # opcional
 translatedFrom: null
-coverImage: "/images/cover.png"
+coverImage: '/images/cover.png'
 ---
 ```
 
@@ -152,7 +153,7 @@ coverImage: "/images/cover.png"
 
 ### Paleta de colores
 
-Define en `tailwind.config.mjs` usando CSS custom properties:
+Define en `src/styles/global.css` con `@theme inline` (Tailwind v4 CSS-first config) sobre runtime CSS variables para light/dark switching:
 
 ```js
 // Dark mode
@@ -228,6 +229,7 @@ Astro + Cloudflare Pages + pocas dependencias JS hace que esto sea alcanzable si
 ## Testing
 
 Para esta fase inicial no hay tests obligatorios. Agregar cuando:
+
 - Hay lógica compleja de transformación de datos
 - Se implementan scripts custom (ej: `new-post.ts`)
 - Hay bugs recurrentes en cierto componente
