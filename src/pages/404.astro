@@ -1,0 +1,42 @@
+---
+// This page emits a single dist/404.html that Cloudflare Workers Static
+// Assets serves on any unmatched URL (see wrangler.jsonc → assets.not_found_handling).
+// Because the same HTML is served for /es/missing, /en/missing, and /random,
+// the page is bilingual rather than locale-detected at build time.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { translations } from '../i18n/translations';
+
+const es = translations.es.notFound;
+const en = translations.en.notFound;
+---
+
+<BaseLayout title="404">
+  <main class="mx-auto flex min-h-screen max-w-3xl flex-col gap-12 px-4 py-24">
+    <header>
+      <p class="font-mono text-sm text-muted">$ 404</p>
+      <h1 class="mt-4 text-5xl font-bold text-fg">{es.heading} / {en.heading}</h1>
+    </header>
+
+    <div class="grid gap-12 sm:grid-cols-2">
+      <section lang="es">
+        <p class="text-muted">{es.description}</p>
+        <a
+          href="/es/"
+          class="mt-4 inline-block text-accent underline underline-offset-4 transition-opacity hover:opacity-80"
+        >
+          ← {es.backHome}
+        </a>
+      </section>
+
+      <section lang="en">
+        <p class="text-muted">{en.description}</p>
+        <a
+          href="/en/"
+          class="mt-4 inline-block text-accent underline underline-offset-4 transition-opacity hover:opacity-80"
+        >
+          ← {en.backHome}
+        </a>
+      </section>
+    </div>
+  </main>
+</BaseLayout>

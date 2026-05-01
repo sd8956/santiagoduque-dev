@@ -63,6 +63,11 @@ type UIStrings = {
     searchUnavailable: string;
     close: string;
   };
+  notFound: {
+    heading: string;
+    description: string;
+    backHome: string;
+  };
 };
 
 export const translations: Record<Locale, UIStrings> = {
@@ -131,6 +136,11 @@ export const translations: Record<Locale, UIStrings> = {
         'La búsqueda no está disponible en dev. Probá `pnpm build && pnpm preview`.',
       close: 'Cerrar',
     },
+    notFound: {
+      heading: 'Página no encontrada',
+      description: 'La URL que buscás no existe o se movió.',
+      backHome: 'Volver al inicio',
+    },
   },
   en: {
     nav: {
@@ -195,6 +205,11 @@ export const translations: Record<Locale, UIStrings> = {
       searchNoResults: 'No results.',
       searchUnavailable: 'Search is unavailable in dev. Try `pnpm build && pnpm preview`.',
       close: 'Close',
+    },
+    notFound: {
+      heading: 'Page not found',
+      description: "The URL you're looking for doesn't exist or has moved.",
+      backHome: 'Back to home',
     },
   },
 };

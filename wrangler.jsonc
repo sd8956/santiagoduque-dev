@@ -6,6 +6,10 @@
   "compatibility_date": "2026-05-01",
   "assets": {
     "directory": "./dist",
+    // Serve dist/404.html (built from src/pages/404.astro) for any
+    // path that does not match a deployed asset. Without this, Workers
+    // returns its plain default 404.
+    "not_found_handling": "404-page",
   },
   "observability": {
     "enabled": true,
