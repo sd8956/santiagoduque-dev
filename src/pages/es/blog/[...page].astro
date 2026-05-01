@@ -8,9 +8,10 @@ import Pagination from '../../../components/blog/Pagination.astro';
 import { getLangFromUrl, useTranslations } from '../../../i18n/utils';
 import { site } from '../../../data/site';
 
-const PAGE_SIZE = 10;
-
 export const getStaticPaths = (async ({ paginate }) => {
+  // NOTE: getStaticPaths runs in isolation — top-level frontmatter consts
+  // are NOT in scope here. Keep PAGE_SIZE local.
+  const PAGE_SIZE = 10;
   const posts = (
     await getCollection('blog', (entry) => entry.data.language === 'es' && !entry.data.draft)
   ).sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
