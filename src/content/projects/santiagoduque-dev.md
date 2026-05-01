@@ -10,7 +10,7 @@ techStack:
   - 'Vitest'
 githubUrl: 'https://github.com/sd8956/santiagoduque-dev'
 demoUrl: 'https://santiagoduque.dev'
-blogPostSlug: 'como-construimos-este-blog'
+blogPostSlug: 'como-construi-este-blog-con-ia'
 featured: true
 ---
 
