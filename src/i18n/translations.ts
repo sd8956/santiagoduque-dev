@@ -51,6 +51,13 @@ type UIStrings = {
     skipToContent: string;
     themeToggleAria: string;
     menuToggleAria: string;
+    search: string;
+    searchAria: string;
+    searchPlaceholder: string;
+    searchInitial: string;
+    searchNoResults: string;
+    searchUnavailable: string;
+    close: string;
   };
 };
 
@@ -107,6 +114,14 @@ export const translations: Record<Locale, UIStrings> = {
       skipToContent: 'Saltar al contenido',
       themeToggleAria: 'Cambiar entre modo claro y oscuro',
       menuToggleAria: 'Abrir menú de navegación',
+      search: 'Buscar',
+      searchAria: 'Abrir búsqueda',
+      searchPlaceholder: 'Buscar en el sitio…',
+      searchInitial: 'Empezá a tipear para buscar.',
+      searchNoResults: 'No hay resultados.',
+      searchUnavailable:
+        'La búsqueda no está disponible en dev. Probá `pnpm build && pnpm preview`.',
+      close: 'Cerrar',
     },
   },
   en: {
@@ -161,6 +176,13 @@ export const translations: Record<Locale, UIStrings> = {
       skipToContent: 'Skip to content',
       themeToggleAria: 'Toggle light and dark theme',
       menuToggleAria: 'Open navigation menu',
+      search: 'Search',
+      searchAria: 'Open search',
+      searchPlaceholder: 'Search the site…',
+      searchInitial: 'Start typing to search.',
+      searchNoResults: 'No results.',
+      searchUnavailable: 'Search is unavailable in dev. Try `pnpm build && pnpm preview`.',
+      close: 'Close',
     },
   },
 };
