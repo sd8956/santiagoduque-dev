@@ -33,6 +33,10 @@ type UIStrings = {
     tagsLabel: string;
     empty: string;
     tableOfContents: string;
+    previous: string;
+    next: string;
+    pageXofY: string;
+    paginationLabel: string;
   };
   projects: {
     title: string;
@@ -95,6 +99,10 @@ export const translations: Record<Locale, UIStrings> = {
       tagsLabel: 'Tags',
       empty: 'Todavía no hay posts publicados.',
       tableOfContents: 'Tabla de contenido',
+      previous: 'Anterior',
+      next: 'Siguiente',
+      pageXofY: 'Página {x} de {y}',
+      paginationLabel: 'Paginación de posts',
     },
     projects: {
       title: 'Proyectos',
@@ -157,6 +165,10 @@ export const translations: Record<Locale, UIStrings> = {
       tagsLabel: 'Tags',
       empty: 'No posts published yet.',
       tableOfContents: 'Table of contents',
+      previous: 'Previous',
+      next: 'Next',
+      pageXofY: 'Page {x} of {y}',
+      paginationLabel: 'Posts pagination',
     },
     projects: {
       title: 'Projects',

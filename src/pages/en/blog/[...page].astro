@@ -1,21 +1,34 @@
 ---
-import { getCollection } from 'astro:content';
+import type { GetStaticPaths, Page } from 'astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
 import PageLayout from '../../../layouts/PageLayout.astro';
 import PostCard from '../../../components/blog/PostCard.astro';
 import BlogSearch from '../../../components/search/BlogSearch.astro';
+import Pagination from '../../../components/blog/Pagination.astro';
 import { getLangFromUrl, useTranslations } from '../../../i18n/utils';
 import { site } from '../../../data/site';
 
+const PAGE_SIZE = 10;
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const posts = (
+    await getCollection('blog', (entry) => entry.data.language === 'en' && !entry.data.draft)
+  ).sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+  return paginate(posts, { pageSize: PAGE_SIZE });
+}) satisfies GetStaticPaths;
+
+interface Props {
+  page: Page<CollectionEntry<'blog'>>;
+}
+
+const { page } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-const posts = (
-  await getCollection('blog', (entry) => entry.data.language === lang && !entry.data.draft)
-).sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
-
+const pageSuffix = page.currentPage > 1 ? `${page.currentPage}/` : '';
 const alternates = [
-  { lang: 'es', href: `${site.url}/es/blog/` },
-  { lang: 'en', href: `${site.url}/en/blog/` },
+  { lang: 'es', href: `${site.url}/es/blog/${pageSuffix}` },
+  { lang: 'en', href: `${site.url}/en/blog/${pageSuffix}` },
 ];
 ---
 
@@ -26,11 +39,11 @@ const alternates = [
   </div>
 
   {
-    posts.length === 0 ? (
+    page.data.length === 0 ? (
       <p class="mt-8 text-muted">{t.blog.empty}</p>
     ) : (
       <div class="mt-8">
-        {posts.map((post) => {
+        {page.data.map((post) => {
           const cleanSlug = post.id.replace(/^(es|en)\//, '');
           return (
             <PostCard
@@ -45,4 +58,11 @@ const alternates = [
       </div>
     )
   }
+
+  <Pagination
+    currentPage={page.currentPage}
+    lastPage={page.lastPage}
+    prevUrl={page.url.prev}
+    nextUrl={page.url.next}
+  />
 </PageLayout>
