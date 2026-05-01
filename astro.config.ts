@@ -1,10 +1,10 @@
 import { defineConfig } from 'astro/config';
-import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
-import matter from 'gray-matter';
+
+import { buildBlogTranslationMap } from './scripts/lib/blog-translation-map';
 
 const SITE_URL = 'https://santiagoduque.dev';
 const DEFAULT_LOCALE = 'es';
@@ -19,34 +19,10 @@ const LOCALES = ['es', 'en'];
 // blog posts use different slugs per language (hola-mundo ↔ hello-world)
 // linked via `translatedTo` frontmatter. So we override the `links` array
 // in `serialize` for blog post URLs.
-function buildBlogTranslationMap() {
-  const map = new Map();
-  for (const lang of LOCALES) {
-    const dir = join(process.cwd(), 'src/content/blog', lang);
-    let files;
-    try {
-      files = readdirSync(dir);
-    } catch {
-      continue;
-    }
-    for (const file of files) {
-      if (!file.endsWith('.md')) continue;
-      const slug = file.replace(/\.md$/, '');
-      const filePath = join(dir, file);
-      const { data } = matter(readFileSync(filePath, 'utf-8'));
-      if (data.draft) continue;
-      const otherLang = lang === 'es' ? 'en' : 'es';
-      const pair = { [lang]: slug };
-      if (typeof data.translatedTo === 'string') {
-        pair[otherLang] = data.translatedTo;
-      }
-      map.set(`${lang}/${slug}`, pair);
-    }
-  }
-  return map;
-}
-
-const blogTranslationMap = buildBlogTranslationMap();
+const blogTranslationMap = buildBlogTranslationMap({
+  contentRoot: join(process.cwd(), 'src/content/blog'),
+  locales: LOCALES,
+});
 
 export default defineConfig({
   site: SITE_URL,
@@ -94,7 +70,7 @@ export default defineConfig({
         const pair = blogTranslationMap.get(`${lang}/${slug}`);
         if (!pair) return item;
 
-        const buildHref = (l) => new URL(`/${l}/blog/${pair[l]}/`, SITE_URL).href;
+        const buildHref = (l: string) => new URL(`/${l}/blog/${pair[l]}/`, SITE_URL).href;
 
         if (pair.es && pair.en) {
           item.links = [
