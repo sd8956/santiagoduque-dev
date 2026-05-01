@@ -1,41 +1,19 @@
 #!/usr/bin/env node
 import { createInterface } from 'node:readline/promises';
 import { stdin, stdout } from 'node:process';
-import { writeFile, mkdir, access } from 'node:fs/promises';
+import { writeFile, mkdir } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
-
-const LOCALES = ['es', 'en'] as const;
-type Locale = (typeof LOCALES)[number];
-
-function isLocale(value: string): value is Locale {
-  return (LOCALES as readonly string[]).includes(value);
-}
-
-function slugify(title: string): string {
-  return title
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-}
-
-function todayISO(): string {
-  const today = new Date();
-  const yyyy = today.getFullYear();
-  const mm = String(today.getMonth() + 1).padStart(2, '0');
-  const dd = String(today.getDate()).padStart(2, '0');
-  return `${yyyy}-${mm}-${dd}`;
-}
-
-async function fileExists(path: string): Promise<boolean> {
-  try {
-    await access(path);
-    return true;
-  } catch {
-    return false;
-  }
-}
+import {
+  type Locale,
+  isLocale,
+  slugify,
+  todayISO,
+  fileExists,
+  buildFrontmatter,
+  isValidSlug,
+  isDescriptionInRange,
+  PLACEHOLDER_DESCRIPTION,
+} from './lib/new-post-helpers';
 
 const rl = createInterface({ input: stdin, output: stdout });
 
@@ -59,7 +37,7 @@ async function main(): Promise<void> {
   }
 
   const slug = await ask('Slug', slugify(title));
-  if (!/^[a-z0-9-]+$/.test(slug)) {
+  if (!isValidSlug(slug)) {
     console.error(`✗ Slug inválido: "${slug}". Solo a-z, 0-9, y guiones.`);
     process.exit(1);
   }
@@ -73,7 +51,7 @@ async function main(): Promise<void> {
   const descriptionRaw = await ask('Descripción (50-200 chars, vacío para placeholder editable)');
   let description: string;
   if (descriptionRaw) {
-    if (descriptionRaw.length < 50 || descriptionRaw.length > 200) {
+    if (!isDescriptionInRange(descriptionRaw)) {
       console.error(
         `✗ Descripción debe tener entre 50 y 200 caracteres (actual: ${descriptionRaw.length}).`,
       );
@@ -81,13 +59,13 @@ async function main(): Promise<void> {
     }
     description = descriptionRaw;
   } else {
-    description = '[Descripción pendiente: completá entre 50 y 200 caracteres antes de publicar.]';
+    description = PLACEHOLDER_DESCRIPTION;
   }
 
   const translatedTo = await ask(
     'Slug del post pareado en el otro idioma (vacío si no tiene traducción)',
   );
-  if (translatedTo && !/^[a-z0-9-]+$/.test(translatedTo)) {
+  if (translatedTo && !isValidSlug(translatedTo)) {
     console.error(`✗ Slug pareado inválido: "${translatedTo}". Solo a-z, 0-9, y guiones.`);
     process.exit(1);
   }
@@ -100,23 +78,14 @@ async function main(): Promise<void> {
     process.exit(1);
   }
 
-  const tagsYaml = JSON.stringify(tags);
-
-  const frontmatterLines = [
-    '---',
-    `title: "${title.replace(/"/g, '\\"')}"`,
-    `description: "${description.replace(/"/g, '\\"')}"`,
-    `pubDate: ${todayISO()}`,
-    `language: "${lang}"`,
-    `tags: ${tagsYaml}`,
-    'featured: false',
-    'draft: true',
-  ];
-  if (translatedTo) {
-    frontmatterLines.push(`translatedTo: "${translatedTo}"`);
-  }
-  frontmatterLines.push('---', '', 'Empezá acá.', '');
-  const frontmatter = frontmatterLines.join('\n');
+  const frontmatter = buildFrontmatter({
+    title,
+    description,
+    pubDate: todayISO(),
+    language: lang,
+    tags,
+    translatedTo: translatedTo || undefined,
+  });
 
   await mkdir(dirname(filePath), { recursive: true });
   await writeFile(filePath, frontmatter, 'utf8');
