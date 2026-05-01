@@ -70,6 +70,28 @@ async function main(): Promise<void> {
     .map((t) => t.trim().toLowerCase())
     .filter(Boolean);
 
+  const descriptionRaw = await ask('Descripción (50-200 chars, vacío para placeholder editable)');
+  let description: string;
+  if (descriptionRaw) {
+    if (descriptionRaw.length < 50 || descriptionRaw.length > 200) {
+      console.error(
+        `✗ Descripción debe tener entre 50 y 200 caracteres (actual: ${descriptionRaw.length}).`,
+      );
+      process.exit(1);
+    }
+    description = descriptionRaw;
+  } else {
+    description = '[Descripción pendiente: completá entre 50 y 200 caracteres antes de publicar.]';
+  }
+
+  const translatedTo = await ask(
+    'Slug del post pareado en el otro idioma (vacío si no tiene traducción)',
+  );
+  if (translatedTo && !/^[a-z0-9-]+$/.test(translatedTo)) {
+    console.error(`✗ Slug pareado inválido: "${translatedTo}". Solo a-z, 0-9, y guiones.`);
+    process.exit(1);
+  }
+
   rl.close();
 
   const filePath = resolve('src/content/blog', lang, `${slug}.md`);
@@ -78,21 +100,23 @@ async function main(): Promise<void> {
     process.exit(1);
   }
 
-  const description = 'TODO: descripción de 150-160 caracteres para SEO y para las preview cards.';
   const tagsYaml = JSON.stringify(tags);
 
-  const frontmatter = `---
-title: "${title.replace(/"/g, '\\"')}"
-description: "${description}"
-pubDate: ${todayISO()}
-language: "${lang}"
-tags: ${tagsYaml}
-featured: false
-draft: true
----
-
-Empezá acá.
-`;
+  const frontmatterLines = [
+    '---',
+    `title: "${title.replace(/"/g, '\\"')}"`,
+    `description: "${description.replace(/"/g, '\\"')}"`,
+    `pubDate: ${todayISO()}`,
+    `language: "${lang}"`,
+    `tags: ${tagsYaml}`,
+    'featured: false',
+    'draft: true',
+  ];
+  if (translatedTo) {
+    frontmatterLines.push(`translatedTo: "${translatedTo}"`);
+  }
+  frontmatterLines.push('---', '', 'Empezá acá.', '');
+  const frontmatter = frontmatterLines.join('\n');
 
   await mkdir(dirname(filePath), { recursive: true });
   await writeFile(filePath, frontmatter, 'utf8');
@@ -101,6 +125,13 @@ Empezá acá.
   console.log(`\n✓ Creado: ${filePath}`);
   console.log(`  Preview local: pnpm dev → http://localhost:4321${url}`);
   console.log(`  Listo para publicar: editar contenido + cambiar draft: false`);
+
+  if (translatedTo) {
+    const otherLang: Locale = lang === 'es' ? 'en' : 'es';
+    console.log(
+      `\n  Este post quedó pareado con /${otherLang}/blog/${translatedTo}/.\n  Si ese post aún no existe, corré el script de nuevo y declará "translatedTo: ${slug}" para cerrar el cruce.`,
+    );
+  }
 }
 
 main().catch((err: unknown) => {
