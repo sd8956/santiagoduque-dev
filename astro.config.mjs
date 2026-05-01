@@ -6,6 +6,8 @@ import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 import matter from 'gray-matter';
 
+import cloudflare from '@astrojs/cloudflare';
+
 const SITE_URL = 'https://santiagoduque.dev';
 const DEFAULT_LOCALE = 'es';
 const LOCALES = ['es', 'en'];
@@ -109,4 +111,6 @@ export default defineConfig({
       },
     }),
   ],
+
+  adapter: cloudflare()
 });

@@ -15,16 +15,19 @@
     "prebuild": "tsx scripts/generate-og.ts",
     "build": "astro build",
     "postbuild": "pagefind --site dist",
-    "preview": "astro preview",
+    "preview": "pnpm run build && wrangler dev",
     "astro": "astro",
     "typecheck": "astro check",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "new-post": "tsx scripts/new-post.ts",
-    "new-project": "tsx scripts/new-project.ts"
+    "new-project": "tsx scripts/new-project.ts",
+    "generate-types": "wrangler types",
+    "deploy": "pnpm run build && wrangler deploy"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "^13.3.0",
     "@astrojs/rss": "^4.0.18",
     "@astrojs/sitemap": "^3.7.2",
     "@tailwindcss/vite": "^4.2.4",
@@ -44,12 +47,16 @@
     "prettier-plugin-astro": "^0.14.1",
     "satori": "^0.26.0",
     "tsx": "^4.21.0",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "wrangler": "^4.87.0"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
       "esbuild",
       "sharp"
     ]
+  },
+  "overrides": {
+    "vite": "^7"
   }
 }

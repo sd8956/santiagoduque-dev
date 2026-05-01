@@ -151,3 +151,6 @@ vite.config.ts.timestamp-*
 
 # Generated OG images (built fresh each prebuild)
 /public/og/
+
+.dev.vars*
+!.dev.vars.example
