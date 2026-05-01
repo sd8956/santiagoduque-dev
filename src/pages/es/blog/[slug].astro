@@ -23,7 +23,7 @@ interface Props {
 }
 
 const { post } = Astro.props;
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
 const readingMinutes = readingTimeMinutes(post.body ?? '');
 
 const slug = post.id.split('/').at(-1) ?? post.id;
@@ -46,6 +46,7 @@ const alternatePath = post.data.translatedTo ? `/en/blog/${post.data.translatedT
   ogImage={ogImage}
   alternates={alternates}
   alternatePath={alternatePath}
+  headings={headings}
 >
   <Content />
 </BlogLayout>
