@@ -14,9 +14,25 @@
   src: url('/fonts/JetBrainsMono-Bold.woff2') format('woff2');
 }
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+/* Theme colors map to runtime CSS custom properties for light/dark switching.
+ * `@theme inline` preserves the var() expression instead of trying to resolve
+ * the color at compile time — required for runtime-switching themes. */
+@theme inline {
+  --color-surface: rgb(var(--bg-primary));
+  --color-elevated: rgb(var(--bg-secondary));
+  --color-fg: rgb(var(--text-primary));
+  --color-muted: rgb(var(--text-secondary));
+  --color-accent: rgb(var(--accent));
+  --color-line: rgb(var(--border));
+  --color-code: rgb(var(--code-bg));
+}
+
+@theme {
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  --font-sans: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+}
 
 @layer base {
   :root {

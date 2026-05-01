@@ -2,7 +2,7 @@ import { defineConfig } from 'astro/config';
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-import tailwind from '@astrojs/tailwind';
+import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 import matter from 'gray-matter';
 
@@ -67,8 +67,11 @@ export default defineConfig({
     },
   },
 
+  vite: {
+    plugins: [tailwindcss()],
+  },
+
   integrations: [
-    tailwind(),
     sitemap({
       i18n: {
         defaultLocale: DEFAULT_LOCALE,
