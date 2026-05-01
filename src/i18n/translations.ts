@@ -10,7 +10,6 @@ type UIStrings = {
   };
   footer: {
     copyright: string;
-    builtWith: string;
   };
   home: {
     heroIntro: string;
@@ -72,7 +71,6 @@ export const translations: Record<Locale, UIStrings> = {
     },
     footer: {
       copyright: '© {year} Santiago Duque',
-      builtWith: 'Construido con Astro y TailwindCSS',
     },
     home: {
       heroIntro: 'Hola, soy',
@@ -134,7 +132,6 @@ export const translations: Record<Locale, UIStrings> = {
     },
     footer: {
       copyright: '© {year} Santiago Duque',
-      builtWith: 'Built with Astro and TailwindCSS',
     },
     home: {
       heroIntro: "I'm",

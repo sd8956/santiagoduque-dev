@@ -1,0 +1,23 @@
+---
+import SearchDialog from './SearchDialog.astro';
+import SearchTrigger from './SearchTrigger.astro';
+
+interface Props {
+  showKbd?: boolean;
+}
+
+const { showKbd = true } = Astro.props;
+
+// Pagefind output (/pagefind/pagefind.js) only exists after `astro build`,
+// so the dialog and trigger render in production builds only.
+const enabled = !import.meta.env.DEV;
+---
+
+{
+  enabled && (
+    <>
+      <SearchTrigger showKbd={showKbd} />
+      <SearchDialog />
+    </>
+  )
+}
