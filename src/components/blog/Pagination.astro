@@ -1,0 +1,43 @@
+---
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+interface Props {
+  currentPage: number;
+  lastPage: number;
+  prevUrl?: string;
+  nextUrl?: string;
+}
+
+const { currentPage, lastPage, prevUrl, nextUrl } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const pageStatus = t.blog.pageXofY
+  .replace('{x}', String(currentPage))
+  .replace('{y}', String(lastPage));
+---
+
+{
+  lastPage > 1 && (
+    <nav
+      aria-label={t.blog.paginationLabel}
+      class="mt-12 flex items-center justify-between gap-4 border-t border-line pt-6 text-sm"
+    >
+      {prevUrl ? (
+        <a href={prevUrl} class="text-muted transition-colors hover:text-accent" rel="prev">
+          ← {t.blog.previous}
+        </a>
+      ) : (
+        <span class="text-muted/50">← {t.blog.previous}</span>
+      )}
+      <span class="text-muted">{pageStatus}</span>
+      {nextUrl ? (
+        <a href={nextUrl} class="text-muted transition-colors hover:text-accent" rel="next">
+          {t.blog.next} →
+        </a>
+      ) : (
+        <span class="text-muted/50">{t.blog.next} →</span>
+      )}
+    </nav>
+  )
+}
