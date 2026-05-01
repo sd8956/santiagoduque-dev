@@ -34,9 +34,7 @@ const alternates = post.data.translatedTo
       { lang: 'en', href: `${site.url}/en/blog/${post.data.translatedTo}/` },
     ]
   : [{ lang: 'es', href: `${site.url}/es/blog/${slug}/` }];
-const alternatePath = post.data.translatedTo
-  ? `/en/blog/${post.data.translatedTo}/`
-  : '/en/blog/';
+const alternatePath = post.data.translatedTo ? `/en/blog/${post.data.translatedTo}/` : '/en/blog/';
 ---
 
 <BlogLayout

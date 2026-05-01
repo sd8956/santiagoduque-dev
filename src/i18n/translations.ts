@@ -95,7 +95,8 @@ export const translations: Record<Locale, UIStrings> = {
     },
     contact: {
       title: 'Contacto',
-      intro: 'Para consultas técnicas, oportunidades de trabajo o cualquier conversación de ingeniería: la vía más rápida es email. También respondo en LinkedIn y GitHub.',
+      intro:
+        'Para consultas técnicas, oportunidades de trabajo o cualquier conversación de ingeniería: la vía más rápida es email. También respondo en LinkedIn y GitHub.',
       emailLabel: 'email',
       githubLabel: 'github',
       linkedinLabel: 'linkedin',
@@ -148,7 +149,8 @@ export const translations: Record<Locale, UIStrings> = {
     },
     contact: {
       title: 'Contact',
-      intro: 'For technical inquiries, work opportunities, or any engineering conversation: email is the fastest path. I also reply on LinkedIn and GitHub.',
+      intro:
+        'For technical inquiries, work opportunities, or any engineering conversation: email is the fastest path. I also reply on LinkedIn and GitHub.',
       emailLabel: 'email',
       githubLabel: 'github',
       linkedinLabel: 'linkedin',

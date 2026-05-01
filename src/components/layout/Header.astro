@@ -16,10 +16,7 @@ const t = useTranslations(lang);
 
 <header class="border-b border-line">
   <div class="mx-auto flex max-w-3xl items-center justify-between gap-3 px-4 py-6">
-    <a
-      href={`/${lang}/`}
-      class="font-bold text-fg transition-colors hover:text-accent"
-    >
+    <a href={`/${lang}/`} class="font-bold text-fg transition-colors hover:text-accent">
       {site.name}
     </a>
 
@@ -91,12 +88,7 @@ const t = useTranslations(lang);
     </div>
   </div>
 
-  <nav
-    id="mobile-nav"
-    class="border-t border-line sm:hidden"
-    data-mobile-menu
-    hidden
-  >
+  <nav id="mobile-nav" class="border-t border-line sm:hidden" data-mobile-menu hidden>
     <ul class="mx-auto flex max-w-3xl flex-col px-4 py-2 text-sm">
       {
         navigation.map((item) => (
