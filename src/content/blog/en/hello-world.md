@@ -6,6 +6,7 @@ language: 'en'
 tags: ['meta']
 featured: true
 draft: false
+translatedTo: 'hola-mundo'
 ---
 
 This is the first post of the blog. Coming soon: AWS cloud security, event-driven architectures at scale, and field notes from the transition from Senior SWE to Security Architect.
