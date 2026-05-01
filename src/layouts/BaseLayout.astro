@@ -2,7 +2,6 @@
 import '../styles/global.css';
 import { getLangFromUrl } from '../i18n/utils';
 import { site } from '../data/site';
-import SearchDialog from '../components/search/SearchDialog.astro';
 
 interface Alternate {
   lang: string;
@@ -88,6 +87,5 @@ const fullTitle = title === site.name ? title : `${title} — ${site.name}`;
   </head>
   <body>
     <slot />
-    <SearchDialog />
   </body>
 </html>

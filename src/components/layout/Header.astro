@@ -1,7 +1,6 @@
 ---
 import LanguageSwitcher from './LanguageSwitcher.astro';
 import ThemeToggle from './ThemeToggle.astro';
-import SearchTrigger from '../search/SearchTrigger.astro';
 import { getLangFromUrl, localizedPath, useTranslations } from '../../i18n/utils';
 import { navigation } from '../../data/navigation';
 import { site } from '../../data/site';
@@ -32,7 +31,6 @@ const t = useTranslations(lang);
           </a>
         ))
       }
-      <SearchTrigger showKbd />
       <LanguageSwitcher
         currentLang={lang}
         currentPath={Astro.url.pathname}
@@ -42,7 +40,6 @@ const t = useTranslations(lang);
     </nav>
 
     <div class="flex items-center gap-4 text-sm sm:hidden">
-      <SearchTrigger />
       <LanguageSwitcher
         currentLang={lang}
         currentPath={Astro.url.pathname}

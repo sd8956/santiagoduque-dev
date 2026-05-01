@@ -1,5 +1,6 @@
 ---
 import PageLayout from './PageLayout.astro';
+import BlogSearch from '../components/search/BlogSearch.astro';
 import '../styles/prose.css';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
 import { formatDate } from '../utils/dates';
@@ -35,7 +36,10 @@ const t = useTranslations(lang);
 >
   <article>
     <header class="mb-10">
-      <h1 class="mb-4 text-3xl font-bold text-fg">{title}</h1>
+      <div class="mb-4 flex items-start justify-between gap-4">
+        <h1 class="text-3xl font-bold text-fg">{title}</h1>
+        <BlogSearch showKbd={false} />
+      </div>
       <div class="flex flex-wrap items-center gap-3 text-sm text-muted">
         <time datetime={pubDate.toISOString()}>{formatDate(pubDate, lang)}</time>
         <span aria-hidden="true">·</span>
