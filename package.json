@@ -21,6 +21,9 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "new-post": "tsx scripts/new-post.ts",
     "new-project": "tsx scripts/new-project.ts"
   },
@@ -36,6 +39,7 @@
     "@resvg/resvg-js": "^2.6.2",
     "@types/node": "^25.6.0",
     "@typescript-eslint/parser": "^8.16.0",
+    "@vitest/coverage-v8": "^4.1.5",
     "eslint": "^10.3.0",
     "eslint-plugin-astro": "^1.3.1",
     "gray-matter": "^4.0.3",
@@ -44,7 +48,8 @@
     "prettier-plugin-astro": "^0.14.1",
     "satori": "^0.26.0",
     "tsx": "^4.21.0",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.5"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
