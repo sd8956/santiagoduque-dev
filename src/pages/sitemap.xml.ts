@@ -48,7 +48,7 @@ export async function GET(context: APIContext): Promise<Response> {
   );
 
   const postEntries: SitemapEntry[] = allPosts.map((post) => {
-    const slug = post.slug.split('/').at(-1) ?? post.slug;
+    const slug = post.id.split('/').at(-1) ?? post.id;
     const lang = post.data.language as Locale;
     const loc = abs(`/${lang}/blog/${slug}/`);
     const lastmod = post.data.pubDate.toISOString().split('T')[0];
