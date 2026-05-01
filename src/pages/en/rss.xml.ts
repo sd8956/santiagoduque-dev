@@ -17,7 +17,7 @@ export async function GET(context: APIContext): Promise<Response> {
     description: site.description.en,
     site: context.site,
     items: posts.map((post) => {
-      const slug = post.slug.split('/').at(-1) ?? post.slug;
+      const slug = post.id.split('/').at(-1) ?? post.id;
       return {
         title: post.data.title,
         description: post.data.description,

@@ -15,6 +15,7 @@ Formato inspirado en [Michael Nygard's ADR template](https://cognitect.com/blog/
 ### Contexto
 
 Necesito un blog técnico que sea:
+
 - Rápido (SEO importa, recruiters lo ven, posts largos con código deben cargar bien)
 - Simple de mantener (no quiero pelear con configuración)
 - Flexible para mezclar páginas estáticas (About, Uses) y contenido dinámico (blog)
@@ -35,6 +36,7 @@ Usar Astro.
 ### Consecuencias
 
 **Positivas:**
+
 - HTML estático puro por defecto, performance excelente
 - Content Collections nativas con type-safety
 - Islands architecture para cuando necesito interactividad
@@ -42,6 +44,7 @@ Usar Astro.
 - Cualquier agente de IA entiende Astro (sintaxis cercana a HTML/JSX)
 
 **Negativas:**
+
 - Comunidad más pequeña que Next.js (aunque creciendo rápido)
 - Algunos plugins menos maduros
 
@@ -71,11 +74,13 @@ TailwindCSS con configuración custom para los design tokens del sitio.
 ### Consecuencias
 
 **Positivas:**
+
 - CSS final extremadamente pequeño
 - Consistencia visual automática
 - Refactoring rápido
 
 **Negativas:**
+
 - HTML con clases largas (mitigar con componentes Astro reusables)
 - Curva de aprendizaje inicial
 
@@ -111,11 +116,13 @@ Rutas prefijadas con redirect en `/` basado en `Accept-Language` header del brow
 ### Consecuencias
 
 **Positivas:**
+
 - SEO perfecto por idioma
 - UX clara para usuarios
 - Fácil de mantener
 
 **Negativas:**
+
 - Duplicación de estructura de páginas en `/es/` y `/en/`
 - Duplicación mitigada con componentes reusables
 
@@ -144,6 +151,7 @@ Cada post se escribe en UN solo idioma. Solo se traducen posts estratégicamente
 ### Criterios para traducir un post
 
 Traducir si cumple al menos 2 de estos:
+
 - Atrae tráfico orgánico alto (top 5 posts por visitas)
 - Es pieza de posicionamiento profesional clave
 - Contenido tipo "guide" o "reference" con larga vida útil
@@ -152,11 +160,13 @@ Traducir si cumple al menos 2 de estos:
 ### Consecuencias
 
 **Positivas:**
+
 - Más contenido producido en total
 - Cada post en el idioma donde naturalmente funciona mejor
 - Flexibilidad de decisión case-by-case
 
 **Negativas:**
+
 - Algunos lectores no encuentran contenido en su idioma preferido
 - Mitigado: cada página en blog list muestra idioma claramente
 
@@ -189,11 +199,13 @@ Cloudflare Pages.
 ### Consecuencias
 
 **Positivas:**
+
 - Performance global excelente
 - Analytics sin consent banner
 - Escalabilidad sin cambiar hosting
 
 **Negativas:**
+
 - Dependencia de Cloudflare como vendor
 - Mitigado: el stack es portable, migrar es trivial
 
@@ -222,11 +234,13 @@ Usar MDX (Markdown + JSX) con Content Collections de Astro.
 ### Consecuencias
 
 **Positivas:**
+
 - Flexibilidad total
 - Mejor DX que Markdown puro
 - Frontmatter validado automáticamente
 
 **Negativas:**
+
 - Ligeramente más complejo que Markdown puro
 - Mitigado: usar JSX solo cuando es realmente necesario
 
@@ -280,6 +294,7 @@ Blogs técnicos frecuentemente tienen sistema de comentarios. Opciones populares
 ### Cuando se re-evalúe
 
 Implementar con **Giscus** porque:
+
 - Comentarios almacenados en GitHub Discussions (backup natural)
 - Requiere GitHub account (filtra spam)
 - Gratis
@@ -300,11 +315,13 @@ Necesito decidir dónde viven los archivos de documentación del proyecto y cóm
 ### Opciones consideradas
 
 **Para ubicación de docs:**
+
 1. Todo en raíz (`README.md`, `ARCHITECTURE.md`, `DECISIONS.md`, `CONTRIBUTING.md`)
 2. Carpeta `docs/` con todo excepto README
 3. Carpeta `docs/` con todo (incluyendo README)
 
 **Para descubrimiento por agentes:**
+
 1. Solo `CLAUDE.md` (específico Claude Code)
 2. Solo `AGENTS.md` (estándar emergente agnóstico)
 3. Ambos: `AGENTS.md` como source of truth + `CLAUDE.md` como wrapper
@@ -312,6 +329,7 @@ Necesito decidir dónde viven los archivos de documentación del proyecto y cóm
 ### Decisión
 
 **Estructura:**
+
 - `README.md` en raíz (convención de GitHub)
 - `AGENTS.md` y `CLAUDE.md` en raíz (convención de descubrimiento)
 - `ARCHITECTURE.md`, `DECISIONS.md`, `CONTRIBUTING.md` en `docs/`
@@ -321,21 +339,25 @@ Necesito decidir dónde viven los archivos de documentación del proyecto y cóm
 ### Razón
 
 **Por qué `docs/` para algunos archivos:**
+
 - Reduce ruido en raíz del repo
 - Convención común en proyectos open source
 - Los archivos en `docs/` son referencia, no onboarding inmediato
 
 **Por qué README en raíz:**
+
 - GitHub lo renderiza automáticamente en la página del repo
 - Es lo primero que ve cualquier visitante
 - Convención universal
 
 **Por qué AGENTS.md como source of truth:**
+
 - Estándar emergente agnóstico (Cursor, Windsurf, Aider lo van adoptando)
 - Si en el futuro cambio de Claude Code a otro agente, no tengo que reescribir docs
 - Single source of truth evita drift entre archivos
 
 **Por qué mantener CLAUDE.md también:**
+
 - Claude Code lo lee automáticamente al iniciar sesión
 - Pero solo redirige a AGENTS.md + notas específicas
 - Sin duplicación de contenido
@@ -343,12 +365,14 @@ Necesito decidir dónde viven los archivos de documentación del proyecto y cóm
 ### Consecuencias
 
 **Positivas:**
+
 - Estructura limpia y portable
 - Compatible con múltiples agentes de IA
 - Documentación organizada por propósito
 - Fácil de mantener
 
 **Negativas:**
+
 - Un archivo más en raíz (CLAUDE.md como wrapper)
 - Mitigado: el archivo es muy corto y solo redirige
 
@@ -377,6 +401,7 @@ Ambas necesitan fijarse antes de configurar Tailwind (T02 del Sprint 1).
 ### Decisión
 
 **Accent color:**
+
 - Dark mode: `#D4A857` (amber muted / brass)
 - Light mode: `#7A5A12` (versión oscura del mismo hue, contraste AA sobre `#fafafa`)
 
@@ -396,13 +421,194 @@ Ambas necesitan fijarse antes de configurar Tailwind (T02 del Sprint 1).
 ### Consecuencias
 
 **Positivas:**
+
 - Identidad visual definida y consistente.
 - Token `--accent` ya implementable en `tailwind.config.mjs` y `src/styles/global.css`.
 - Una sola familia tipográfica → menos bytes, menos complejidad, mejor LCP.
 
 **Negativas:**
+
 - Si en el futuro se quiere light mode más vibrante, el `#7A5A12` puede sentirse opaco. Mitigar al implementar light mode.
 - Coherencia mono-only puede sentirse "muy técnica" para audience no-dev. Aceptable: target del sitio son recruiters técnicos y peers de ingeniería.
+
+---
+
+## ADR 011: Upgrade de Astro 4 → 6
+
+**Fecha:** 2026-05-01
+**Estado:** Aceptado
+
+### Contexto
+
+El sitio cerró Sprint 5 sobre Astro 4.16.18 + un puñado de triggers acumulados que solo se desbloquean en Astro 5+:
+
+- `@astrojs/sitemap@3.7+` requiere Astro 5 (usa el hook `astro:routes:resolved`).
+- `@astrojs/tailwind` está deprecado en Astro 5+ y la guía oficial apunta a `@tailwindcss/vite`.
+- Content Layer API (loaders) solo está disponible desde Astro 5.
+- Astro 4 sigue recibiendo security fixes, pero la cantidad de mejoras post-4 es alta.
+
+### Opciones consideradas
+
+1. **Salto directo 4 → 6** — un único PR, un único set de breaking changes que resolver.
+2. **Incremental 4 → 5 → 6** — dos pasos separados; aísla la migración riesgosa (Tailwind v3→v4 + Content Layer + sitemap) en el salto 4→5, y deja el salto 5→6 como un bump menor.
+
+### Decisión
+
+Incremental, en una sola feature branch (`feature/astro-6-upgrade`) con commits atómicos por concern.
+
+### Razón
+
+- Diffs revisables: 7 commits ≤ 500 LOC cada uno.
+- Rollback granular: cualquier commit puede revertirse independientemente.
+- El salto 5→6 es pequeño (deprecation hints sobre `z` desde `astro:content`) — no justifica mezclarlo con la migración estructural.
+- `pnpm dlx @astrojs/upgrade` aplica codemods automáticos para 5→6, mucho menos para 4→6 directo.
+
+### Consecuencias
+
+**Positivas:**
+
+- Ecosistema actualizado: Vite 7, @astrojs/sitemap oficial, Content Layer disponible.
+- Habilita features futuras (Server Islands, `astro:env`, MDX en glob loader sin tocar config).
+- 769 líneas neto removidas del lockfile (consolidación de transitives).
+
+**Negativas:**
+
+- Major bumps acoplados (Astro + Tailwind + dep restructuring) — testeo end-to-end obligatorio.
+- Alguna deprecation hint nueva en typecheck (`z` desde `astro:content`/`astro:schema`) — informativa, no bloqueante.
+
+---
+
+## ADR 012: Migración a Tailwind v4 con `@tailwindcss/vite`
+
+**Fecha:** 2026-05-01
+**Estado:** Aceptado
+**Reemplaza:** decisión inicial de ADR 002 sobre TailwindCSS (sigue válida; cambia la versión y el mecanismo de integración).
+
+### Contexto
+
+Tailwind v3 + `@astrojs/tailwind@6` funcionaba sobre Astro 4 y 5, pero en Astro 5+ la integración oficial está deprecada. Tailwind v4 es una reescritura mayor: CSS-first config (sin `tailwind.config.mjs`), `@theme` blocks en CSS, eliminación del placeholder `<alpha-value>`, opacity modifiers vía `color-mix()`.
+
+### Decisión
+
+- Bump `tailwindcss@^3.4` → `^4.2`.
+- Reemplazar `@astrojs/tailwind` por `@tailwindcss/vite` (Vite plugin nativo).
+- Eliminar `tailwind.config.mjs`; mover theme tokens a `@theme inline { ... }` en `src/styles/global.css`.
+- Agregar `@reference './global.css'` como primera línea de `src/styles/prose.css`.
+
+### Razón
+
+- Camino oficial post-Astro 5: `@astrojs/tailwind` no recibe features nuevas.
+- Performance: Vite plugin elimina la pasada de PostCSS y compila utilities on-demand.
+- `@theme inline` preserva expresiones `rgb(var(--xxx))` para el toggle light/dark (theme switching runtime sigue funcionando con `:root` / `[data-theme='light']` blocks intactos).
+- v4 emite `color-mix(in oklab, ..., transparent)` automáticamente para opacity modifiers (`bg-accent/30`) — sin perder soporte de runtime CSS variables.
+
+### Riesgo principal y mitigación
+
+`@apply` directives en archivos NO-entry (caso `src/styles/prose.css`) rompen silenciosamente sin un `@reference`. Sin esto, los 16 `@apply` del archivo dejan de resolver `text-fg`, `bg-code`, `border-accent`, etc., y el styling de blog posts regresa por completo sin error visible.
+
+**Solución:** primera línea de `prose.css` debe ser `@reference './global.css';` (no `@reference 'tailwindcss'` — ese solo carga utilities estándar y no los custom @theme tokens).
+
+### Consecuencias
+
+**Positivas:**
+
+- Config CSS-first (un solo lugar para tokens y utilities).
+- Less coupling con el plugin de Astro; v4 funciona igual fuera de Astro.
+- Theme toggle light/dark sigue 100% funcional sobre runtime CSS vars.
+
+**Negativas:**
+
+- Convención `@reference` es nueva y fácil de olvidar al agregar archivos CSS adicionales que usen `@apply`.
+- Migration path para nuevos colaboradores: deben aprender `@theme inline` y la diferencia con `@theme`.
+
+---
+
+## ADR 013: Migración a Content Layer API
+
+**Fecha:** 2026-05-01
+**Estado:** Aceptado
+
+### Contexto
+
+Astro 5 introdujo Content Layer API (loaders) reemplazando el sistema legacy de Content Collections (`type: 'content'`). El legacy sigue funcionando en Astro 5/6 con deprecation warnings y será removido en algún major futuro.
+
+### Decisión
+
+Migrar `src/content/config.ts` → `src/content.config.ts` (convención Astro 5+) y reescribir collections con `loader: glob({ pattern, base })`.
+
+### Razón
+
+- Forward-compat: el legacy se removerá. Mejor migrar de manera deliberada que verse forzado.
+- Performance: Content Layer cachea metadata en sqlite (`.astro/`), incremental builds más rápidos.
+- Loaders extensibles: futuro soporte para cargar contenido desde APIs externas, CMSs headless, etc.
+- Schemas zod siguen funcionando idénticos (zero schema migration).
+
+### Cambios mecánicos requeridos
+
+- `post.slug` → `post.id` (mismo shape para glob loader: relative path sin extensión).
+- `await post.render()` → `await render(post)` (top-level import desde `astro:content`).
+- `post.body` ahora opcional → guard con `?? ''` en callers (`readingTimeMinutes`).
+- `import { z } from 'astro:content'` → `import { z } from 'astro:schema'` (Astro 6 canonical).
+
+### Consecuencias
+
+**Positivas:**
+
+- Sin warnings de deprecation sobre la API legacy.
+- Posibilidad futura de loaders custom (RSS, JSON APIs, etc.) sin reescribir.
+- Cache invalidation explícita vía `rm -rf .astro/`.
+
+**Negativas:**
+
+- 11 callsites tocados en una sola migración (tolerable; sitio chico).
+- `post.body` opcional fuerza `??` guard en lugares donde antes era garantizado.
+
+---
+
+## ADR 014: Reemplazar custom sitemap por `@astrojs/sitemap`
+
+**Fecha:** 2026-05-01
+**Estado:** Aceptado
+**Reemplaza:** implementación custom en `src/pages/sitemap.xml.ts` (~90 LOC, ahora eliminada).
+
+### Contexto
+
+El sitemap custom existía porque `@astrojs/sitemap@3.7+` requería Astro 5+ y nosotros estábamos en Astro 4. Una vez en Astro 5+ (ADR 011), el bloqueo desaparece.
+
+El custom hacía dos cosas correctamente:
+
+1. Hreflang alternates entre static pages (es ↔ en).
+2. Hreflang cross-language para blog posts con slugs distintos (`/es/blog/hola-mundo/` ↔ `/en/blog/hello-world/`) vía `translatedTo` en frontmatter.
+
+La integración oficial hace (1) nativo via `i18n.locales`, pero NO infiere (2) — su pairing es por path idéntico.
+
+### Decisión
+
+Adoptar `@astrojs/sitemap@^3.7.2` con un `serialize` callback custom que reconstruye `item.links` para URLs `/es|en/blog/{slug}/` usando un translation map preconstruido al config-eval-time leyendo frontmatter via `gray-matter` + `node:fs` (~30 LOC).
+
+### Razón
+
+- Eliminamos ~90 LOC de XML generation manual + escape; el integration es source-of-truth maintained por core team.
+- Translation map se construye una sola vez al startup; serialize por URL es O(1) lookup.
+- Reusa el patrón ya validado en `scripts/generate-og.ts` (mismo `gray-matter` + `node:fs`) — sin nueva dependency.
+
+### Filtros configurados
+
+- `/draft/*` excluido.
+- Root `/` (noindex JS-redirect) excluido — todo el contenido canonical vive bajo `/es/` o `/en/` por `prefixDefaultLocale: true`.
+
+### Consecuencias
+
+**Positivas:**
+
+- Menos código custom para mantener.
+- Sitemap bajo `dist/sitemap-index.xml` + `dist/sitemap-0.xml` (formato indexado, escala mejor).
+- Locale codes mejorados a `es-ES` / `en-US` (más específicos que `es` / `en`).
+
+**Negativas:**
+
+- `x-default` no se emite para static pages (la integración oficial no lo soporta hoy). Aceptable: Google lo trata como opcional.
+- El `serialize` callback depende de leer `src/content/blog/**/*.md` desde disco al evaluar `astro.config.mjs` — si el path cambia, hay que actualizarlo.
 
 ---
 
@@ -415,20 +621,25 @@ Ambas necesitan fijarse antes de configurar Tailwind (T02 del Sprint 1).
 **Estado:** [Propuesto | Aceptado | Rechazado | Deprecado | Reemplazado por ADR XXX]
 
 ### Contexto
+
 Qué problema estamos resolviendo, qué circumstancias llevaron a esto.
 
 ### Opciones consideradas (opcional)
+
 1. Opción A
 2. Opción B
 3. Opción C
 
 ### Decisión
+
 Qué vamos a hacer.
 
 ### Razón
+
 Por qué esta opción sobre las demás.
 
 ### Consecuencias
+
 **Positivas:** ...
 **Negativas:** ...
 ```

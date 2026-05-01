@@ -5,10 +5,10 @@ Tech Lead & Senior Software Engineer especializado en AWS serverless y arquitect
 
 ## Stack
 
-- **Framework:** [Astro](https://astro.build) 4.x
+- **Framework:** [Astro](https://astro.build) 6.x
 - **Lenguaje:** TypeScript (strict mode)
-- **Estilos:** [TailwindCSS](https://tailwindcss.com)
-- **Contenido:** MDX con Content Collections
+- **Estilos:** [TailwindCSS v4](https://tailwindcss.com) (CSS-first vía `@tailwindcss/vite`)
+- **Contenido:** Markdown + Content Layer API (glob loader)
 - **Package manager:** pnpm
 - **Hosting:** Cloudflare Pages
 - **Analytics:** Cloudflare Web Analytics (privacy-friendly)
@@ -17,6 +17,7 @@ Tech Lead & Senior Software Engineer especializado en AWS serverless y arquitect
 ## Setup local
 
 Requisitos previos:
+
 - Node.js 20+
 - pnpm 8+
 
@@ -48,13 +49,13 @@ pnpm typecheck     # Verificar tipos TypeScript
 
 ## Documentación del proyecto
 
-| Archivo | Contenido |
-|---|---|
-| [AGENTS.md](./AGENTS.md) | Convenciones para agentes de IA (cualquier agente) |
-| [CLAUDE.md](./CLAUDE.md) | Específico de Claude Code (apunta a AGENTS.md) |
-| [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md) | Decisiones técnicas y estructura |
-| [docs/DECISIONS.md](./docs/DECISIONS.md) | ADRs con el "por qué" de cada decisión |
-| [docs/CONTRIBUTING.md](./docs/CONTRIBUTING.md) | Flujo de trabajo y convenciones |
+| Archivo                                        | Contenido                                          |
+| ---------------------------------------------- | -------------------------------------------------- |
+| [AGENTS.md](./AGENTS.md)                       | Convenciones para agentes de IA (cualquier agente) |
+| [CLAUDE.md](./CLAUDE.md)                       | Específico de Claude Code (apunta a AGENTS.md)     |
+| [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md) | Decisiones técnicas y estructura                   |
+| [docs/DECISIONS.md](./docs/DECISIONS.md)       | ADRs con el "por qué" de cada decisión             |
+| [docs/CONTRIBUTING.md](./docs/CONTRIBUTING.md) | Flujo de trabajo y convenciones                    |
 
 ## Estructura del proyecto
 
@@ -100,6 +101,7 @@ Ver [docs/CONTRIBUTING.md](./docs/CONTRIBUTING.md) para el flujo completo.
 ## Deploy
 
 Deploy automático vía Cloudflare Pages:
+
 - Push a `main` → deploy a producción
 - Pull requests → preview deployments automáticos
 

@@ -1,3 +1,5 @@
+@reference './global.css';
+
 .prose {
   @apply text-fg leading-relaxed;
 }

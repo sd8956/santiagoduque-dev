@@ -27,7 +27,7 @@ const alternates = [
     ) : (
       <div class="mt-8">
         {posts.map((post) => {
-          const cleanSlug = post.slug.replace(/^(es|en)\//, '');
+          const cleanSlug = post.id.replace(/^(es|en)\//, '');
           return (
             <PostCard
               slug={cleanSlug}

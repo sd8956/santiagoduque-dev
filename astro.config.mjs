@@ -1,10 +1,56 @@
 import { defineConfig } from 'astro/config';
+import { readdirSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
 
-import tailwind from '@astrojs/tailwind';
+import tailwindcss from '@tailwindcss/vite';
+import sitemap from '@astrojs/sitemap';
+import matter from 'gray-matter';
 
-// https://astro.build/config
+const SITE_URL = 'https://santiagoduque.dev';
+const DEFAULT_LOCALE = 'es';
+const LOCALES = ['es', 'en'];
+
+// Build a slug-translation map at config-eval time by reading blog frontmatter
+// directly from disk. Keyed by `${lang}/${slug}`; value is the matching slug
+// in each locale (undefined if no translation exists).
+//
+// We can't import astro:content from astro.config.mjs, and @astrojs/sitemap's
+// i18n config auto-pairs alternates by SAME path across locales — but our
+// blog posts use different slugs per language (hola-mundo ↔ hello-world)
+// linked via `translatedTo` frontmatter. So we override the `links` array
+// in `serialize` for blog post URLs.
+function buildBlogTranslationMap() {
+  const map = new Map();
+  for (const lang of LOCALES) {
+    const dir = join(process.cwd(), 'src/content/blog', lang);
+    let files;
+    try {
+      files = readdirSync(dir);
+    } catch {
+      continue;
+    }
+    for (const file of files) {
+      if (!file.endsWith('.md')) continue;
+      const slug = file.replace(/\.md$/, '');
+      const filePath = join(dir, file);
+      const { data } = matter(readFileSync(filePath, 'utf-8'));
+      if (data.draft) continue;
+      const otherLang = lang === 'es' ? 'en' : 'es';
+      const pair = { [lang]: slug };
+      if (typeof data.translatedTo === 'string') {
+        pair[otherLang] = data.translatedTo;
+      }
+      map.set(`${lang}/${slug}`, pair);
+    }
+  }
+  return map;
+}
+
+const blogTranslationMap = buildBlogTranslationMap();
+
 export default defineConfig({
-  site: 'https://santiagoduque.dev',
+  site: SITE_URL,
+  output: 'static',
   trailingSlash: 'always',
 
   markdown: {
@@ -15,12 +61,52 @@ export default defineConfig({
   },
 
   i18n: {
-    locales: ['es', 'en'],
-    defaultLocale: 'es',
+    locales: LOCALES,
+    defaultLocale: DEFAULT_LOCALE,
     routing: {
       prefixDefaultLocale: true,
     },
   },
 
-  integrations: [tailwind()],
+  vite: {
+    plugins: [tailwindcss()],
+  },
+
+  integrations: [
+    sitemap({
+      i18n: {
+        defaultLocale: DEFAULT_LOCALE,
+        locales: { es: 'es-ES', en: 'en-US' },
+      },
+      filter: (page) => {
+        if (page.includes('/draft/')) return false;
+        // Root '/' is a noindex JS-detection redirect (src/pages/index.astro);
+        // canonical URLs all live under /es/ or /en/ via prefixDefaultLocale.
+        const path = new URL(page).pathname;
+        if (path === '/') return false;
+        return true;
+      },
+      serialize(item) {
+        const match = item.url.match(/\/(es|en)\/blog\/([^/]+)\/$/);
+        if (!match) return item;
+
+        const [, lang, slug] = match;
+        const pair = blogTranslationMap.get(`${lang}/${slug}`);
+        if (!pair) return item;
+
+        const buildHref = (l) => new URL(`/${l}/blog/${pair[l]}/`, SITE_URL).href;
+
+        if (pair.es && pair.en) {
+          item.links = [
+            { lang: 'es-ES', url: buildHref('es') },
+            { lang: 'en-US', url: buildHref('en') },
+            { lang: 'x-default', url: buildHref(DEFAULT_LOCALE) },
+          ];
+        } else {
+          item.links = [{ lang: lang === 'es' ? 'es-ES' : 'en-US', url: item.url }];
+        }
+        return item;
+      },
+    }),
+  ],
 });
