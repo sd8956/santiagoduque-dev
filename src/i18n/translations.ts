@@ -32,6 +32,7 @@ type UIStrings = {
     readingTimeSuffix: string;
     tagsLabel: string;
     empty: string;
+    tableOfContents: string;
   };
   projects: {
     title: string;
@@ -93,6 +94,7 @@ export const translations: Record<Locale, UIStrings> = {
       readingTimeSuffix: 'min de lectura',
       tagsLabel: 'Tags',
       empty: 'Todavía no hay posts publicados.',
+      tableOfContents: 'Tabla de contenido',
     },
     projects: {
       title: 'Proyectos',
@@ -154,6 +156,7 @@ export const translations: Record<Locale, UIStrings> = {
       readingTimeSuffix: 'min read',
       tagsLabel: 'Tags',
       empty: 'No posts published yet.',
+      tableOfContents: 'Table of contents',
     },
     projects: {
       title: 'Projects',

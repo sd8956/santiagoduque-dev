@@ -1,0 +1,36 @@
+---
+import type { MarkdownHeading } from 'astro';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+interface Props {
+  headings: MarkdownHeading[];
+  /** Minimum h2/h3 entries to render the TOC. Posts shorter than this skip it. */
+  minHeadings?: number;
+}
+
+const { headings, minHeadings = 2 } = Astro.props;
+const items = headings.filter((h) => h.depth === 2 || h.depth === 3);
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+{
+  items.length >= minHeadings && (
+    <nav
+      aria-label={t.blog.tableOfContents}
+      class="my-8 border-y border-line py-4 text-sm"
+      data-pagefind-ignore
+    >
+      <p class="mb-3 text-xs uppercase tracking-wide text-muted">{t.blog.tableOfContents}</p>
+      <ol class="space-y-1">
+        {items.map((h) => (
+          <li class={h.depth === 3 ? 'ml-4' : ''}>
+            <a href={`#${h.slug}`} class="text-fg transition-colors hover:text-accent">
+              {h.text}
+            </a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+  )
+}
