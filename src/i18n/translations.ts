@@ -86,7 +86,7 @@ export const translations: Record<Locale, UIStrings> = {
     home: {
       heroIntro: 'Hola, soy',
       heroRoleNow: 'Tech Lead en Bold',
-      heroRoleNext: 'cloud security · serverless · event-driven',
+      heroRoleNext: 'serverless · event-driven · AI-native systems',
       ctaBlog: 'Leer el blog',
       ctaAbout: 'Sobre mí',
     },
@@ -158,7 +158,7 @@ export const translations: Record<Locale, UIStrings> = {
     home: {
       heroIntro: "I'm",
       heroRoleNow: 'Tech Lead at Bold',
-      heroRoleNext: 'cloud security · serverless · event-driven',
+      heroRoleNext: 'serverless · event-driven · AI-native systems',
       ctaBlog: 'Read the blog',
       ctaAbout: 'About me',
     },
