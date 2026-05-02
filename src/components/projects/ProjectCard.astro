@@ -5,10 +5,13 @@ interface Props {
   techStack: string[];
   githubUrl?: string;
   demoUrl?: string;
+  blogPostUrl?: string;
+  blogPostLabel?: string;
 }
 
-const { title, description, techStack, githubUrl, demoUrl } = Astro.props;
-const hasLinks = Boolean(githubUrl || demoUrl);
+const { title, description, techStack, githubUrl, demoUrl, blogPostUrl, blogPostLabel } =
+  Astro.props;
+const hasLinks = Boolean(githubUrl || demoUrl || blogPostUrl);
 ---
 
 <article class="border-b border-line py-6">
@@ -42,6 +45,14 @@ const hasLinks = Boolean(githubUrl || demoUrl);
             class="text-accent underline underline-offset-4 transition-opacity hover:opacity-80"
           >
             → demo
+          </a>
+        )}
+        {blogPostUrl && blogPostLabel && (
+          <a
+            href={blogPostUrl}
+            class="text-accent underline underline-offset-4 transition-opacity hover:opacity-80"
+          >
+            → {blogPostLabel}
           </a>
         )}
       </div>

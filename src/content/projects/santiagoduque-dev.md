@@ -1,6 +1,8 @@
 ---
 title: 'santiagoduque.dev'
-description: 'Blog técnico y portafolio personal: sitio estático bilingüe (ES/EN) sobre cloud security, AWS y arquitecturas event-driven, desplegado en Cloudflare Workers Static Assets.'
+description:
+  es: 'Blog técnico y portafolio personal: sitio estático bilingüe (ES/EN) sobre cloud security, AWS y arquitecturas event-driven, desplegado en Cloudflare Workers Static Assets.'
+  en: 'Personal technical blog and portfolio: static bilingual site (ES/EN) on cloud security, AWS, and event-driven architectures, deployed on Cloudflare Workers Static Assets.'
 techStack:
   - 'Astro 6'
   - 'TypeScript strict'
@@ -10,7 +12,9 @@ techStack:
   - 'Vitest'
 githubUrl: 'https://github.com/sd8956/santiagoduque-dev'
 demoUrl: 'https://santiagoduque.dev'
-blogPostSlug: 'como-construi-este-blog-con-ia'
+blogPostSlug:
+  es: 'como-construi-este-blog-con-ia'
+  en: 'how-i-built-this-blog-with-ai'
 featured: true
 ---
 
