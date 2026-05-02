@@ -1,8 +1,8 @@
 ---
 title: 'santiagoduque.dev'
 description:
-  es: 'Blog técnico y portafolio personal: sitio estático bilingüe (ES/EN) sobre cloud security, AWS y arquitecturas event-driven, desplegado en Cloudflare Workers Static Assets.'
-  en: 'Personal technical blog and portfolio: static bilingual site (ES/EN) on cloud security, AWS, and event-driven architectures, deployed on Cloudflare Workers Static Assets.'
+  es: 'Blog técnico y portafolio personal: sitio estático bilingüe (ES/EN) sobre AWS serverless, arquitecturas event-driven y sistemas AI-native, desplegado en Cloudflare Workers Static Assets.'
+  en: 'Personal technical blog and portfolio: static bilingual site (ES/EN) on AWS serverless, event-driven architectures, and AI-native systems, deployed on Cloudflare Workers Static Assets.'
 techStack:
   - 'Astro 6'
   - 'TypeScript strict'
