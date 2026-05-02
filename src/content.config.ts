@@ -19,15 +19,17 @@ const blog = defineCollection({
   }),
 });
 
+const localized = z.object({ es: z.string(), en: z.string() });
+
 const projects = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/projects' }),
   schema: z.object({
     title: z.string(),
-    description: z.string(),
+    description: localized,
     techStack: z.array(z.string()),
     githubUrl: z.string().url().optional(),
     demoUrl: z.string().url().optional(),
-    blogPostSlug: z.string().optional(),
+    blogPostSlug: localized.optional(),
     featured: z.boolean().default(false),
     coverImage: z.string().optional(),
   }),

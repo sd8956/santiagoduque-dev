@@ -27,15 +27,22 @@ const alternates = [
       <p class="mt-8 text-muted">{t.projects.empty}</p>
     ) : (
       <div class="mt-8">
-        {projects.map((project) => (
-          <ProjectCard
-            title={project.data.title}
-            description={project.data.description}
-            techStack={project.data.techStack}
-            githubUrl={project.data.githubUrl}
-            demoUrl={project.data.demoUrl}
-          />
-        ))}
+        {projects.map((project) => {
+          const blogPostUrl = project.data.blogPostSlug
+            ? `/${lang}/blog/${project.data.blogPostSlug[lang]}/`
+            : undefined;
+          return (
+            <ProjectCard
+              title={project.data.title}
+              description={project.data.description[lang]}
+              techStack={project.data.techStack}
+              githubUrl={project.data.githubUrl}
+              demoUrl={project.data.demoUrl}
+              blogPostUrl={blogPostUrl}
+              blogPostLabel={blogPostUrl ? t.projects.readPost : undefined}
+            />
+          );
+        })}
       </div>
     )
   }

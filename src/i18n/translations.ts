@@ -41,6 +41,7 @@ type UIStrings = {
   projects: {
     title: string;
     empty: string;
+    readPost: string;
   };
   contact: {
     title: string;
@@ -112,6 +113,7 @@ export const translations: Record<Locale, UIStrings> = {
     projects: {
       title: 'Proyectos',
       empty: 'Todavía no hay proyectos publicados.',
+      readPost: 'leer post',
     },
     contact: {
       title: 'Contacto',
@@ -183,6 +185,7 @@ export const translations: Record<Locale, UIStrings> = {
     projects: {
       title: 'Projects',
       empty: 'No projects published yet.',
+      readPost: 'read post',
     },
     contact: {
       title: 'Contact',
