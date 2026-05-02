@@ -18,6 +18,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+      - name: Asset size guard
+        run: |
+          set -euo pipefail
+          MAX_KB=500
+          fail=0
+          while IFS= read -r f; do
+            [ -z "$f" ] && continue
+            size_kb=$(( $(stat -c%s "$f") / 1024 ))
+            if [ "$size_kb" -gt "$MAX_KB" ]; then
+              echo "::error file=$f::Asset is ${size_kb}KB, exceeds ${MAX_KB}KB limit. Compress it, or gitignore it if it's build-generated."
+              fail=1
+            fi
+          done < <(git ls-files public/ | grep -iE '\.(png|jpg|jpeg|webp|gif)$' || true)
+          exit $fail
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v6
 
